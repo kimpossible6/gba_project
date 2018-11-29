@@ -1190,18 +1190,15 @@ static __inline__ int __sputc_r(struct _reent *_ptr, int _c, FILE *_p) {
 
 # 3 "main.c" 2
 # 1 "myLib.h" 1
+# 11 "myLib.h"
 
-
-
-
-
-# 5 "myLib.h"
+# 11 "myLib.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-# 65 "myLib.h"
+# 71 "myLib.h"
 extern unsigned short *videoBuffer;
-# 86 "myLib.h"
+# 92 "myLib.h"
 typedef struct {
  u16 tileimg[8192];
 } charblock;
@@ -1245,12 +1242,12 @@ typedef struct {
 
 
 extern OBJ_ATTR shadowOAM[];
-# 159 "myLib.h"
+# 165 "myLib.h"
 void hideSprites();
-# 180 "myLib.h"
+# 186 "myLib.h"
 extern unsigned short oldButtons;
 extern unsigned short buttons;
-# 191 "myLib.h"
+# 197 "myLib.h"
 typedef volatile struct {
     volatile const void *src;
     volatile void *dst;
@@ -1259,14 +1256,16 @@ typedef volatile struct {
 
 
 extern DMA *dma;
-# 232 "myLib.h"
+# 238 "myLib.h"
 void DMANow(int channel, volatile const void *src, volatile void *dst, unsigned int cnt);
 
 
 
 
 int collision(int rowA, int colA, int heightA, int widthA, int rowB, int colB, int heightB, int widthB);
-# 323 "myLib.h"
+int birdCollision(int rowA, int colA, int heightA, int widthA, int rowB, int colB, int heightB, int widthB);
+int myRandom(int size);
+# 330 "myLib.h"
 typedef struct{
     const unsigned char* data;
     int length;
@@ -1339,7 +1338,8 @@ extern const unsigned short winMap[1024];
 extern const unsigned short winPal[256];
 # 11 "main.c" 2
 # 1 "level1.h" 1
-
+# 1 "myLib.h" 1
+# 2 "level1.h" 2
 
 
 
@@ -1357,6 +1357,8 @@ typedef struct {
     int curFrame;
     int numFrames;
     int active;
+    int leftToRight;
+    int isCollide;
 } SMLBIRDS;
 
 typedef struct {
@@ -1397,7 +1399,7 @@ typedef struct {
  int rdel;
  int height;
  int width;
- int roriginal;
+
  int bulletTimer;
  int cDirection;
  int isJump;
@@ -1408,6 +1410,8 @@ typedef struct {
  int prevAniState;
  int aniCounter;
  int curFrame;
+
+ int jumpmode;
 } PLAYER;
 
 typedef struct {
@@ -1435,8 +1439,11 @@ typedef struct {
  int height;
  int width;
  int active;
- int erased;
+ int curFrame;
 } LIVE;
+
+
+
 
 
 extern int vOff;
@@ -1447,17 +1454,23 @@ extern OBJ_ATTR shadowOAM[128];
 extern int livesNum;
 extern int birdsNum;
 extern int lanternNum;
+extern int level;
 
 
 void initGame1();
 void updateGame1();
 void drawGame1();
 
+void initGame2();
+void updateGame2();
+void drawGame2();
+
 
 void initSmlbirds();
 void updateSmlbirds();
 void drawSmlbirds();
 void fireSmlbirds();
+void drawHitSmlbirds(SMLBIRDS *s, int j);
 
 void initLanterns();
 void updateLanterns();
@@ -1471,11 +1484,11 @@ void firePlayer();
 
 
 
-void initLive();
+void initLive1();
 
-void drawLive();
+void drawLive1();
 
-void updateLive();
+void updateLive1();
 # 12 "main.c" 2
 # 1 "gamebg.h" 1
 # 22 "gamebg.h"
@@ -1550,6 +1563,9 @@ void goToLose();
 void lose();
 void insturction1();
 void goToInstruction1();
+
+
+
 
 
 enum {START, INSTRUCTION, GAME, PAUSE, WIN, LOSE};
@@ -1697,28 +1713,36 @@ void goToGame() {
     (*(volatile unsigned short*)0x4000008) = ((1)<<2) | ((28)<<8)| (0<<14);
     DMANow(3, seaTiles, &((charblock *)0x6000000)[1], 5312/2);
     DMANow(3, seaMap, &((screenblock *)0x6000000)[28], 2048/2);
-
-
-
     state = GAME;
 }
 
 
-void game() {
 
-    updateGame1();
-    drawGame1();
-# 208 "main.c"
+
+
+void game() {
+    if (level == 1) {
+        updateGame1();
+        drawGame1();
+    } else if (level == 2) {
+        updateGame2();
+        drawGame2();
+    }
+# 216 "main.c"
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
         stopSound();
         goToPause();
     }
     else if (birdsNum == 0)
         goToLose();
-    else if (lanternNum == 10) {
+    else if ((!(~(oldButtons)&((1<<2))) && (~buttons & ((1<<2))))) {
+
         goToWin();
     }
 }
+
+
+
 
 
 void goToPause() {

@@ -1479,8 +1479,11 @@ typedef struct {
  int height;
  int width;
  int active;
- int erased;
+ int curFrame;
 } LIVE;
+
+
+
 
 
 extern int vOff;
@@ -1491,11 +1494,16 @@ extern OBJ_ATTR shadowOAM[128];
 extern int livesNum;
 extern int birdsNum;
 extern int lanternNum;
+extern int level;
 
 
 void initGame1();
 void updateGame1();
 void drawGame1();
+
+void initGame2();
+void updateGame2();
+void drawGame2();
 
 
 void initSmlbirds();
@@ -1516,11 +1524,11 @@ void firePlayer();
 
 
 
-void initLive();
+void initLive1();
 
-void drawLive();
+void drawLive1();
 
-void updateLive();
+void updateLive1();
 # 4 "level1.c" 2
 # 1 "myLib.h" 1
 # 5 "level1.c" 2
@@ -1573,7 +1581,9 @@ int grav = 50;
 
 PLAYER player;
 
+
 SMLBIRDS smlbird1[4];
+
 SMLBIRDS smlbird2[4];
 
 LANTERNS lanterns[10];
@@ -1583,7 +1593,7 @@ LIVE live;
 int livesNum;
 int birdsNum;
 int lanternNum;
-
+int level;
 OBJ_ATTR shadowOAM[128];
 enum { PLAYUP, PLAYDOWN, PLAYHIT, PLAYRIGHT, PLAYLEFT, PLAYIDLE};
 
@@ -1605,34 +1615,90 @@ void initGame1() {
  initPlayer();
  initSmlbirds();
  initLanterns();
+ initLive1();
  buttons = (*(volatile unsigned short *)0x04000130);
  aniCounter = 0;
  livesNum = 5;
  birdsNum = 4;
  lanternNum = 0;
+
+ level = 1;
  vOff = 0;
  hOff = 0;
 }
 void updateGame1() {
- aniCounter++;
- updatePlayer();
- updateSmlbirds();
- updateLanterns();
- waitForVBlank();
- DMANow(3, shadowOAM, ((OBJ_ATTR*)(0x7000000)), 128 * 4);
- if (aniCounter % 3 == 0) {
+ if (level == 1) {
+  aniCounter++;
+  updatePlayer();
+  updateSmlbirds();
+  updateLanterns();
+  updateLive1();
+  waitForVBlank();
+  DMANow(3, shadowOAM, ((OBJ_ATTR*)(0x7000000)), 128 * 4);
+  if (aniCounter % 3 == 0) {
 
+
+  }
 
  }
+
+ if (lanternNum == 10) {
+  level = 2;
+  initGame2();
+ }
+
+
  (*(volatile unsigned short *)0x0400001A) = vOff;
  (*(volatile unsigned short *)0x04000016) = vOff;
  (*(volatile unsigned short *)0x04000012) = vOff;
  (*(volatile unsigned short *)0x04000010) = hOff / 2;
+
 }
-void drawGame1() {
+
+void initGame2() {
+ DMANow(3, spritesheetTiles, &((charblock *)0x6000000)[4], 32768 / 2);
+    DMANow(3, spritesheetPal, ((unsigned short *)0x5000200), 512 / 2);
+    hideSprites();
+
+
+    (*(unsigned short *)0x4000000) |= (1<<12);
+    (*(volatile unsigned short*)0x400000C) = (0<<14)| (0<<7) | ((0)<<2) | ((28)<<8);
+ initPlayer();
+ initSmlbirds();
+ initLanterns();
+ initLive1();
+ buttons = (*(volatile unsigned short *)0x04000130);
+ aniCounter = 0;
+ livesNum = 5;
+ birdsNum = 4;
+ lanternNum = 0;
+
+ level = 1;
+ vOff = 0;
+ hOff = 0;
+}
+void drawGame2() {
  drawPlayer();
- drawSmlbirds();
- drawLanterns();
+ shadowOAM[33].attr0 = (0xFF & 5)| (0<<13) | (1<<14);
+    shadowOAM[33].attr1 = (0x1FF & 160) | (0<<14);
+    shadowOAM[33].attr2 = ((0)<<12) | ((23)*32+(16));
+}
+
+void updateGame2() {
+ updatePlayer();
+}
+
+void drawGame1() {
+ if (level == 1) {
+  drawPlayer();
+  drawSmlbirds();
+  drawLanterns();
+  drawLive1();
+  shadowOAM[33].attr0 = (0xFF & 5)| (0<<13) | (1<<14);
+     shadowOAM[33].attr1 = (0x1FF & 160) | (0<<14);
+     shadowOAM[33].attr2 = ((0)<<12) | ((23)*32+(16));
+ }
+
 }
 
 void initPlayer() {
@@ -1856,7 +1922,7 @@ void updateSmlbirds() {
   for (int j = 0; j < 4; j++) {
    smlbird1[j].col -= smlbird1[j].cdel;
   }
-# 310 "level1.c"
+# 368 "level1.c"
 }
 
 void drawHitSmlbirds(SMLBIRDS *s, int j) {
@@ -1895,14 +1961,24 @@ void drawSmlbirds() {
 
   }
  }
+ shadowOAM[49].attr0 = (0xFF & 5) | (0<<13) | (0<<14);
+ shadowOAM[49].attr1 = (0x1FF & 40) | (0<<14);
+ shadowOAM[49].attr2 = ((0)<<12) | ((23)*32+(13));
+
+ shadowOAM[57].attr0 = (0xFF & 5) | (0<<13) | (0<<14);
+ shadowOAM[57].attr1 = (0x1FF & 50) | (0<<14);
+ shadowOAM[57].attr2 = ((0)<<12) | ((22)*32+(12 + birdsNum));
+
 }
 
 void initLanterns() {
  for (int j = 0; j < 10; j++) {
-  lanterns[j].row = rand()%80 + 30;
+  lanterns[j].row = rand()%40 + 30;
   lanterns[j].col = rand()%160 + 30;
-     lanterns[j].rdel = 1;
-     lanterns[j].cdel = 1;
+  int randomrdel = rand()%2;
+  int randomcdel = rand()%2;
+     lanterns[j].rdel = 2;
+     lanterns[j].cdel = 2;
   lanterns[j].width = 16;
   lanterns[j].height = 16;
      lanterns[j].aniCounter = 0;
@@ -1922,17 +1998,15 @@ void updateLanterns() {
  for (int j = 0; j < 10; j++) {
   if (lanterns[j].row < 18 || lanterns[j].row + lanterns[j].height > 100) {
    lanterns[j].rdel *= -1;
-  } else if (lanterns[j].col < 5 || lanterns[j].col + lanterns[j].width > 200) {
    lanterns[j].cdel *= -1;
+  } else if (lanterns[j].col < 5 || lanterns[j].col + lanterns[j].width > 200) {
+   lanterns[j].rdel *= -1;
+   lanterns[j].cdel *= -1;
+
   }
- }
+  if (aniCounter % 10 == 0) {
 
 
-
-
- if (aniCounter % 10 == 0) {
-
-  for (int j = 0; j < 10; j++) {
 
    int random = rand()%4;
    if (random == 0) {
@@ -1948,8 +2022,14 @@ void updateLanterns() {
     lanterns[j].col -= lanterns[j].cdel;
     lanterns[j].row -= lanterns[j].rdel;
    }
+
   }
  }
+
+
+
+
+
 
  if (aniCounter % 50 == 0) {
   for (int j = 0; j < 10; j++) {
@@ -2101,5 +2181,36 @@ void drawLanterns() {
    }
 
   }
+ }
+ shadowOAM[65].attr0 = (0xFF & 5) | (0<<13) | (0<<14);
+ shadowOAM[65].attr1 = (0x1FF & 10) | (0<<14);
+ shadowOAM[65].attr2 = ((0)<<12) | ((23)*32+(12));
+
+ shadowOAM[73].attr0 = (0xFF & 5) | (0<<13) | (0<<14);
+ shadowOAM[73].attr1 = (0x1FF & 20) | (0<<14);
+ shadowOAM[73].attr2 = ((0)<<12) | ((22)*32+(12 + lanternNum));
+}
+
+void initLive1() {
+ live.row = 5;
+ live.col = 180;
+ live.height = 8;
+ live.width = 8;
+ live.active = 0;
+ live.curFrame = 0;
+}
+void drawLive1() {
+ shadowOAM[41].attr0 = (0xFF & 5) | (0<<13) | (1<<14);
+ shadowOAM[41].attr1 = (0x1FF & 180) | (0<<14);
+ shadowOAM[41].attr2 = ((0)<<12) | ((24 + (live.curFrame % 4) * 2)*32+(12));
+}
+
+void updateLive1() {
+ if (birdsNum == 3) {
+  live.curFrame = 1;
+ } else if (birdsNum == 2) {
+  live.curFrame = 2;
+ } else if (birdsNum == 1) {
+  live.curFrame = 3;
  }
 }

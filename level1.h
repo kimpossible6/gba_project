@@ -98,8 +98,11 @@ typedef struct {
 	int height;
 	int width;
 	int active;
-	int erased;
+	int curFrame;
 } LIVE;
+
+
+
 
 
 extern int vOff;
@@ -110,11 +113,16 @@ extern OBJ_ATTR shadowOAM[128];
 extern int livesNum;
 extern int birdsNum;
 extern int lanternNum;
+extern int level;
 
 //LEVEL1
 void initGame1();
 void updateGame1();
 void drawGame1();
+
+void initGame2();
+void updateGame2();
+void drawGame2();
 
 //Objects 
 void initSmlbirds();
@@ -135,11 +143,14 @@ void firePlayer();
 
 //Live
 //init 
-void initLive();
+void initLive1();
 //draw
-void drawLive();
+void drawLive1();
 //update
-void updateLive();
+void updateLive1();
+
+//level2 birds 
+
 
 
 

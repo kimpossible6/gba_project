@@ -33,6 +33,9 @@ void lose();
 void insturction1();
 void goToInstruction1();
 
+
+
+
 // States
 enum {START, INSTRUCTION, GAME, PAUSE, WIN, LOSE};
 int state;
@@ -179,17 +182,22 @@ void goToGame() {
     REG_BG0CNT =  BG_CHARBLOCK(1) | BG_SCREENBLOCK(28)| BG_SIZE_SMALL;
     DMANow(3, seaTiles, &CHARBLOCK[1], seaTilesLen/2);
     DMANow(3, seaMap, &SCREENBLOCK[28], seaMapLen/2);
-
-
-
     state = GAME;
 }
 
+
+
+
 // Runs every frame of the game state
 void game() {
-
-    updateGame1();
-    drawGame1();
+    if (level == 1) {
+        updateGame1();
+        drawGame1();
+    } else if (level == 2) {
+        updateGame2();
+        drawGame2();
+    }
+   
 
     // Update the score
     // sprintf(buffer, "Pumpkins: %d", pumpkinsRemaining);
@@ -211,10 +219,14 @@ void game() {
     }
     else if (birdsNum == 0)
         goToLose();
-    else if (lanternNum == 10) {
+    else if (BUTTON_PRESSED(BUTTON_SELECT)) {
+        // goToInstruction2();
         goToWin();
     }
 }
+
+
+
 
 // Sets up the pause state
 void goToPause() {
