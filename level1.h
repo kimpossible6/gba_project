@@ -56,7 +56,7 @@ typedef struct {
 	int prevAniState;
 	int aniCounter;
 	int curFrame;
-
+	int isHittingBird;
 	int jumpmode;
 } PLAYER;
 
@@ -103,6 +103,7 @@ extern int birds2Num;
 extern int lgbirdsNum;
 extern int lanternNum;
 extern int level;
+
 
 //LEVEL1
 void initGame1();

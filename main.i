@@ -1397,7 +1397,7 @@ typedef struct {
  int prevAniState;
  int aniCounter;
  int curFrame;
-
+ int isHittingBird;
  int jumpmode;
 } PLAYER;
 
@@ -1444,6 +1444,7 @@ extern int birds2Num;
 extern int lgbirdsNum;
 extern int lanternNum;
 extern int level;
+
 
 
 void initGame1();
@@ -1729,11 +1730,11 @@ void game() {
         stopSound();
         goToPause();
     }
-    else if (birdsNum == 0 && level == 1)
+    else if (livesNum == 0 && level == 1)
         goToLose();
-    else if (birds2Num == 0 && birdsNum == 0 && level == 2) {
+    else if (livesNum == 0 && level == 2) {
         goToLose();
-    } else if (birds2Num == 0 && birdsNum == 0 && lgbirdsNum == 0 && level == 3) {
+    } else if (livesNum == 0 && level == 3) {
          goToLose();
     }
     else if (lanternNum == 10 && level == 3) {
