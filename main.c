@@ -190,13 +190,9 @@ void goToGame() {
 
 // Runs every frame of the game state
 void game() {
-    if (level == 1) {
         updateGame1();
         drawGame1();
-    } else if (level == 2) {
-        updateGame2();
-        drawGame2();
-    }
+    
    
 
     // Update the score
@@ -217,9 +213,14 @@ void game() {
         stopSound();
         goToPause();
     }
-    else if (birdsNum == 0)
+    else if (birdsNum == 0 && level == 1) 
         goToLose();
-    else if (BUTTON_PRESSED(BUTTON_SELECT)) {
+    else if (birds2Num == 0 && birdsNum == 0 && level == 2) {
+        goToLose();
+    } else if (birds2Num == 0 && birdsNum == 0 && lgbirdsNum == 0 && level == 3) {
+         goToLose();
+    }
+    else if (lanternNum == 10 && level == 3) {
         // goToInstruction2();
         goToWin();
     }

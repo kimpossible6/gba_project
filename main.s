@@ -613,84 +613,85 @@ game:
 	@ Function supports interworking.
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	ldr	r3, .L86
-	ldr	r3, [r3]
-	cmp	r3, #1
 	push	{r4, lr}
-	beq	.L81
-	cmp	r3, #2
-	beq	.L82
-.L70:
-	ldr	r3, .L86+4
+	ldr	r3, .L85
+	mov	lr, pc
+	bx	r3
+	ldr	r3, .L85+4
+	mov	lr, pc
+	bx	r3
+	ldr	r3, .L85+8
 	ldrh	r3, [r3]
 	tst	r3, #8
-	beq	.L71
-	ldr	r2, .L86+8
-	ldrh	r2, [r2]
-	tst	r2, #8
-	beq	.L83
-.L71:
-	ldr	r2, .L86+12
+	beq	.L69
+	ldr	r3, .L85+12
+	ldrh	r3, [r3]
+	tst	r3, #8
+	beq	.L84
+.L69:
+	ldr	r3, .L85+16
+	ldr	r3, [r3]
+	cmp	r3, #0
+	bne	.L70
+	ldr	r3, .L85+20
+	ldr	r3, [r3]
+	cmp	r3, #1
+	beq	.L72
+	ldr	r2, .L85+24
 	ldr	r2, [r2]
 	cmp	r2, #0
-	beq	.L84
-	tst	r3, #4
-	beq	.L68
-	ldr	r3, .L86+8
-	ldrh	r3, [r3]
-	tst	r3, #4
-	beq	.L85
+	bne	.L70
+	cmp	r3, #2
+	beq	.L72
+	ldr	r2, .L85+28
+	ldr	r2, [r2]
+	cmp	r2, #0
+	bne	.L70
+	cmp	r3, #3
+	beq	.L72
 .L68:
 	pop	{r4, lr}
 	bx	lr
+.L70:
+	ldr	r3, .L85+32
+	ldr	r3, [r3]
+	cmp	r3, #10
+	bne	.L68
+	ldr	r3, .L85+20
+	ldr	r3, [r3]
+	cmp	r3, #3
+	bne	.L68
+	ldr	r3, .L85+36
+	mov	lr, pc
+	bx	r3
+	mov	r2, #4
+	ldr	r3, .L85+40
+	str	r2, [r3]
+	b	.L68
 .L84:
-	pop	{r4, lr}
-	b	goToLose
-.L81:
-	ldr	r3, .L86+16
-	mov	lr, pc
-	bx	r3
-	ldr	r3, .L86+20
-	mov	lr, pc
-	bx	r3
-	b	.L70
-.L83:
-	ldr	r3, .L86+24
+	ldr	r3, .L85+44
 	mov	lr, pc
 	bx	r3
 	pop	{r4, lr}
 	b	goToPause
-.L85:
-	ldr	r3, .L86+28
-	mov	lr, pc
-	bx	r3
-	mov	r2, #4
-	ldr	r3, .L86+32
+.L72:
 	pop	{r4, lr}
-	str	r2, [r3]
-	bx	lr
-.L82:
-	ldr	r3, .L86+36
-	mov	lr, pc
-	bx	r3
-	ldr	r3, .L86+40
-	mov	lr, pc
-	bx	r3
-	b	.L70
-.L87:
-	.align	2
+	b	goToLose
 .L86:
-	.word	level
+	.align	2
+.L85:
+	.word	updateGame1
+	.word	drawGame1
 	.word	oldButtons
 	.word	buttons
 	.word	birdsNum
-	.word	updateGame1
-	.word	drawGame1
-	.word	stopSound
+	.word	level
+	.word	birds2Num
+	.word	lgbirdsNum
+	.word	lanternNum
 	.word	waitForVBlank
 	.word	state
-	.word	updateGame2
-	.word	drawGame2
+	.word	stopSound
 	.size	game, .-game
 	.align	2
 	.global	lose
@@ -702,27 +703,27 @@ lose:
 	@ Function supports interworking.
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	ldr	r3, .L95
+	ldr	r3, .L94
 	push	{r4, lr}
 	mov	lr, pc
 	bx	r3
-	ldr	r3, .L95+4
+	ldr	r3, .L94+4
 	ldrh	r3, [r3]
 	tst	r3, #8
-	beq	.L88
-	ldr	r3, .L95+8
+	beq	.L87
+	ldr	r3, .L94+8
 	ldrh	r3, [r3]
 	tst	r3, #8
-	beq	.L94
-.L88:
+	beq	.L93
+.L87:
 	pop	{r4, lr}
 	bx	lr
-.L94:
+.L93:
 	pop	{r4, lr}
 	b	goToStart
-.L96:
-	.align	2
 .L95:
+	.align	2
+.L94:
 	.word	waitForVBlank
 	.word	oldButtons
 	.word	buttons
@@ -742,70 +743,70 @@ main:
 	mov	r2, #67108864
 	mov	r1, #1024
 	push	{r4, r7, fp, lr}
-	ldr	r3, .L110
+	ldr	r3, .L109
 	strh	r1, [r2]	@ movhi
 	mov	lr, pc
 	bx	r3
-	ldr	r3, .L110+4
+	ldr	r3, .L109+4
 	mov	lr, pc
 	bx	r3
-	ldr	r3, .L110+8
+	ldr	r3, .L109+8
 	mov	lr, pc
 	bx	r3
-	ldr	r6, .L110+12
-	ldr	r7, .L110+16
-	ldr	r5, .L110+20
-	ldr	fp, .L110+24
-	ldr	r10, .L110+28
-	ldr	r9, .L110+32
-	ldr	r8, .L110+36
-	ldr	r4, .L110+40
-.L98:
+	ldr	r6, .L109+12
+	ldr	r7, .L109+16
+	ldr	r5, .L109+20
+	ldr	fp, .L109+24
+	ldr	r10, .L109+28
+	ldr	r9, .L109+32
+	ldr	r8, .L109+36
+	ldr	r4, .L109+40
+.L97:
 	ldr	r2, [r6]
 	ldrh	r3, [r7]
-.L99:
+.L98:
 	strh	r3, [r5]	@ movhi
 	ldrh	r3, [r4, #48]
 	strh	r3, [r7]	@ movhi
 	cmp	r2, #5
 	ldrls	pc, [pc, r2, asl #2]
-	b	.L99
-.L101:
-	.word	.L100
+	b	.L98
+.L100:
+	.word	.L99
+	.word	.L101
 	.word	.L102
 	.word	.L103
 	.word	.L104
 	.word	.L105
-	.word	.L106
-.L106:
-	ldr	r3, .L110+44
-	mov	lr, pc
-	bx	r3
-	b	.L98
 .L105:
-	ldr	r3, .L110+48
+	ldr	r3, .L109+44
 	mov	lr, pc
 	bx	r3
-	b	.L98
+	b	.L97
 .L104:
+	ldr	r3, .L109+48
 	mov	lr, pc
-	bx	r8
-	b	.L98
+	bx	r3
+	b	.L97
 .L103:
 	mov	lr, pc
-	bx	r9
-	b	.L98
+	bx	r8
+	b	.L97
 .L102:
 	mov	lr, pc
+	bx	r9
+	b	.L97
+.L101:
+	mov	lr, pc
 	bx	r10
-	b	.L98
-.L100:
+	b	.L97
+.L99:
 	mov	lr, pc
 	bx	fp
-	b	.L98
-.L111:
-	.align	2
+	b	.L97
 .L110:
+	.align	2
+.L109:
 	.word	goToStart
 	.word	setupSounds
 	.word	setupInterrupts

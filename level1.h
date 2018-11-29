@@ -33,21 +33,8 @@ typedef struct {
     int curFrame;
     int numFrames;
     int active;
-} SMLBIRDS2;
-
-typedef struct {
-	int row;
-	int col;
-    int rdel;
-    int cdel;
-	int width;
-    int height;
-    int aniCounter;
-    int aniState;
-    int prevAniState;
-    int curFrame;
-    int numFrames;
-    int active;
+    int leftToRight;
+    int isCollide;
 } LGBIRDS;
 
 // Player Struct
@@ -112,6 +99,8 @@ extern OBJ_ATTR shadowOAM[128];
 
 extern int livesNum;
 extern int birdsNum;
+extern int birds2Num;
+extern int lgbirdsNum;
 extern int lanternNum;
 extern int level;
 
@@ -150,6 +139,19 @@ void drawLive1();
 void updateLive1();
 
 //level2 birds 
+void initBird2();
+void drawBird2();
+void updateBird2();
+
+
+//level3 birds 
+void initGame3();
+void initLGBird();
+void drawLGBird();
+void updateLGBird();
+
+
+
 
 
 

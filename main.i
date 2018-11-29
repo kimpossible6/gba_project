@@ -1374,21 +1374,8 @@ typedef struct {
     int curFrame;
     int numFrames;
     int active;
-} SMLBIRDS2;
-
-typedef struct {
- int row;
- int col;
-    int rdel;
-    int cdel;
- int width;
-    int height;
-    int aniCounter;
-    int aniState;
-    int prevAniState;
-    int curFrame;
-    int numFrames;
-    int active;
+    int leftToRight;
+    int isCollide;
 } LGBIRDS;
 
 
@@ -1453,6 +1440,8 @@ extern OBJ_ATTR shadowOAM[128];
 
 extern int livesNum;
 extern int birdsNum;
+extern int birds2Num;
+extern int lgbirdsNum;
 extern int lanternNum;
 extern int level;
 
@@ -1489,6 +1478,18 @@ void initLive1();
 void drawLive1();
 
 void updateLive1();
+
+
+void initBird2();
+void drawBird2();
+void updateBird2();
+
+
+
+void initGame3();
+void initLGBird();
+void drawLGBird();
+void updateLGBird();
 # 12 "main.c" 2
 # 1 "gamebg.h" 1
 # 22 "gamebg.h"
@@ -1721,21 +1722,21 @@ void goToGame() {
 
 
 void game() {
-    if (level == 1) {
         updateGame1();
         drawGame1();
-    } else if (level == 2) {
-        updateGame2();
-        drawGame2();
-    }
-# 216 "main.c"
+# 212 "main.c"
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
         stopSound();
         goToPause();
     }
-    else if (birdsNum == 0)
+    else if (birdsNum == 0 && level == 1)
         goToLose();
-    else if ((!(~(oldButtons)&((1<<2))) && (~buttons & ((1<<2))))) {
+    else if (birds2Num == 0 && birdsNum == 0 && level == 2) {
+        goToLose();
+    } else if (birds2Num == 0 && birdsNum == 0 && lgbirdsNum == 0 && level == 3) {
+         goToLose();
+    }
+    else if (lanternNum == 10 && level == 3) {
 
         goToWin();
     }
