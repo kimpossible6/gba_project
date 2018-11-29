@@ -16,6 +16,8 @@ typedef struct {
     int curFrame;
     int numFrames;
     int active;
+    int leftToRight;
+    int isCollide;
 } SMLBIRDS;
 
 typedef struct {
@@ -56,7 +58,7 @@ typedef struct {
 	int rdel;
 	int height;
 	int width;
-	int roriginal;
+	
 	int bulletTimer;
 	int cDirection;
 	int isJump;
@@ -67,6 +69,8 @@ typedef struct {
 	int prevAniState;
 	int aniCounter;
 	int curFrame;
+
+	int jumpmode;
 } PLAYER;
 
 typedef struct {
@@ -117,6 +121,7 @@ void initSmlbirds();
 void updateSmlbirds();
 void drawSmlbirds();
 void fireSmlbirds();
+void drawHitSmlbirds(SMLBIRDS *s, int j);
 
 void initLanterns();
 void updateLanterns();

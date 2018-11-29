@@ -591,6 +591,132 @@ collision:
 	ldr	lr, [sp], #4
 	bx	lr
 	.size	collision, .-collision
+	.global	__aeabi_idivmod
+	.align	2
+	.global	myRandom
+	.syntax unified
+	.arm
+	.fpu softvfp
+	.type	myRandom, %function
+myRandom:
+	@ Function supports interworking.
+	@ args = 0, pretend = 0, frame = 0
+	@ frame_needed = 0, uses_anonymous_args = 0
+	push	{r4, r5, r6, lr}
+	ldr	r5, .L113
+	subs	r4, r0, #0
+	ldrlt	r4, [r5]
+	blt	.L98
+	ldr	r0, [r5, #4]
+	cmp	r0, #0
+	ldrne	r3, .L113+4
+	movne	lr, pc
+	bxne	r3
+.L99:
+	lsl	r0, r4, #2
+	ldr	r3, .L113+8
+	mov	lr, pc
+	bx	r3
+	cmp	r0, #0
+	str	r0, [r5, #4]
+	beq	.L103
+	cmp	r4, #0
+	beq	.L101
+	mov	r3, #0
+	sub	r0, r0, #4
+.L102:
+	str	r3, [r0, #4]!
+	add	r3, r3, #1
+	cmp	r4, r3
+	bne	.L102
+.L101:
+	str	r4, [r5]
+.L98:
+	cmp	r4, #0
+	beq	.L104
+	ldr	r3, .L113+12
+	mov	lr, pc
+	bx	r3
+	ldr	r4, [r5]
+	ldr	r3, .L113+16
+	mov	r1, r4
+	mov	lr, pc
+	bx	r3
+	ldr	r0, [r5, #4]
+	sub	r3, r4, #-1073741823
+	ldr	r3, [r0, r3, lsl #2]
+	sub	r4, r4, #1
+	cmp	r4, #0
+	ldr	r6, [r0, r1, lsl #2]
+	str	r4, [r5]
+	str	r3, [r0, r1, lsl #2]
+	bne	.L96
+	ldr	r3, .L113+4
+	mov	lr, pc
+	bx	r3
+	str	r4, [r5, #4]
+.L96:
+	mov	r0, r6
+	pop	{r4, r5, r6, lr}
+	bx	lr
+.L104:
+	mvn	r6, #0
+	b	.L96
+.L103:
+	mvn	r6, #1
+	b	.L96
+.L114:
+	.align	2
+.L113:
+	.word	.LANCHOR1
+	.word	free
+	.word	malloc
+	.word	rand
+	.word	__aeabi_idivmod
+	.size	myRandom, .-myRandom
+	.align	2
+	.global	birdCollision
+	.syntax unified
+	.arm
+	.fpu softvfp
+	.type	birdCollision, %function
+birdCollision:
+	@ Function supports interworking.
+	@ args = 16, pretend = 0, frame = 0
+	@ frame_needed = 0, uses_anonymous_args = 0
+	push	{r4, lr}
+	ldr	lr, [sp, #8]
+	ldr	ip, [sp, #16]
+	add	ip, lr, ip
+	sub	ip, ip, #1
+	add	r4, r0, #9
+	cmp	r4, ip
+	bge	.L119
+	add	r0, r0, r2
+	add	lr, lr, #10
+	cmp	r0, lr
+	bgt	.L121
+.L119:
+	mov	r0, #0
+	pop	{r4, lr}
+	bx	lr
+.L121:
+	ldr	r0, [sp, #20]
+	ldr	r2, [sp, #12]
+	add	r2, r2, r0
+	sub	r2, r2, #1
+	add	r0, r1, #9
+	cmp	r0, r2
+	bge	.L119
+	add	r1, r1, r3
+	ldr	r3, [sp, #12]
+	sub	r0, r3, #9
+	cmp	r1, r0
+	movlt	r0, #0
+	movge	r0, #1
+	pop	{r4, lr}
+	bx	lr
+	.size	birdCollision, .-birdCollision
 	.align	2
 	.global	hideSprites
 	.syntax unified
@@ -603,16 +729,16 @@ hideSprites:
 	@ frame_needed = 0, uses_anonymous_args = 0
 	@ link register save eliminated.
 	mov	r1, #512
-	ldr	r3, .L100
+	ldr	r3, .L126
 	add	r2, r3, #1024
-.L97:
+.L123:
 	strh	r1, [r3], #8	@ movhi
 	cmp	r3, r2
-	bne	.L97
+	bne	.L123
 	bx	lr
-.L101:
+.L127:
 	.align	2
-.L100:
+.L126:
 	.word	shadowOAM
 	.size	hideSprites, .-hideSprites
 	.global	dma
@@ -628,4 +754,15 @@ videoBuffer:
 	.size	dma, 4
 dma:
 	.word	67109040
+	.bss
+	.align	2
+	.set	.LANCHOR1,. + 0
+	.type	numNums.5245, %object
+	.size	numNums.5245, 4
+numNums.5245:
+	.space	4
+	.type	numArr.5246, %object
+	.size	numArr.5246, 4
+numArr.5246:
+	.space	4
 	.ident	"GCC: (devkitARM release 47) 7.1.0"

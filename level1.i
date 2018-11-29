@@ -1034,17 +1034,274 @@ __tzinfo_type *__gettzinfo (void);
 # 1 "level1.h" 1
 # 1 "myLib.h" 1
 
+# 1 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdio.h" 1 3
+# 36 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdio.h" 3
+# 1 "/Users/ziwei/Desktop/Software/devkitARM/lib/gcc/arm-none-eabi/7.1.0/include/stddef.h" 1 3 4
+# 37 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdio.h" 2 3
+
+
+
+# 1 "/Users/ziwei/Desktop/Software/devkitARM/lib/gcc/arm-none-eabi/7.1.0/include/stdarg.h" 1 3 4
+# 40 "/Users/ziwei/Desktop/Software/devkitARM/lib/gcc/arm-none-eabi/7.1.0/include/stdarg.h" 3 4
+typedef __builtin_va_list __gnuc_va_list;
+# 41 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdio.h" 2 3
+# 63 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdio.h" 3
+
+
+
+typedef __FILE FILE;
 
 
 
 
-# 5 "myLib.h"
+
+
+typedef _fpos_t fpos_t;
+
+
+
+
+
+# 1 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/sys/stdio.h" 1 3
+# 80 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdio.h" 2 3
+# 186 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdio.h" 3
+FILE * tmpfile (void);
+char * tmpnam (char *);
+
+
+
+int fclose (FILE *);
+int fflush (FILE *);
+FILE * freopen (const char *restrict, const char *restrict, FILE *restrict);
+void setbuf (FILE *restrict, char *restrict);
+int setvbuf (FILE *restrict, char *restrict, int, size_t);
+int fprintf (FILE *restrict, const char *restrict, ...) __attribute__ ((__format__ (__printf__, 2, 3)))
+                                                            ;
+int fscanf (FILE *restrict, const char *restrict, ...) __attribute__ ((__format__ (__scanf__, 2, 3)))
+                                                           ;
+int printf (const char *restrict, ...) __attribute__ ((__format__ (__printf__, 1, 2)))
+                                                            ;
+int scanf (const char *restrict, ...) __attribute__ ((__format__ (__scanf__, 1, 2)))
+                                                           ;
+int sscanf (const char *restrict, const char *restrict, ...) __attribute__ ((__format__ (__scanf__, 2, 3)))
+                                                           ;
+int vfprintf (FILE *restrict, const char *restrict, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 2, 0)))
+                                                            ;
+int vprintf (const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 1, 0)))
+                                                            ;
+int vsprintf (char *restrict, const char *restrict, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 2, 0)))
+                                                            ;
+int fgetc (FILE *);
+char * fgets (char *restrict, int, FILE *restrict);
+int fputc (int, FILE *);
+int fputs (const char *restrict, FILE *restrict);
+int getc (FILE *);
+int getchar (void);
+char * gets (char *);
+int putc (int, FILE *);
+int putchar (int);
+int puts (const char *);
+int ungetc (int, FILE *);
+size_t fread (void * restrict, size_t _size, size_t _n, FILE *restrict);
+size_t fwrite (const void * restrict , size_t _size, size_t _n, FILE *);
+
+
+
+int fgetpos (FILE *restrict, fpos_t *restrict);
+
+int fseek (FILE *, off_t, int);
+
+
+
+int fsetpos (FILE *, const fpos_t *);
+
+long ftell ( FILE *);
+void rewind (FILE *);
+void clearerr (FILE *);
+int feof (FILE *);
+int ferror (FILE *);
+void perror (const char *);
+
+FILE * fopen (const char *restrict _name, const char *restrict _type);
+int sprintf (char *restrict, const char *restrict, ...) __attribute__ ((__format__ (__printf__, 2, 3)))
+                                                            ;
+int remove (const char *);
+int rename (const char *, const char *);
+# 266 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdio.h" 3
+int snprintf (char *restrict, size_t, const char *restrict, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int vsnprintf (char *restrict, size_t, const char *restrict, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int vfscanf (FILE *restrict, const char *restrict, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 2, 0)))
+                                                           ;
+int vscanf (const char *, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 1, 0)))
+                                                           ;
+int vsscanf (const char *restrict, const char *restrict, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 2, 0)))
+                                                           ;
+# 393 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdio.h" 3
+int _asiprintf_r (struct _reent *, char **, const char *, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+char * _asniprintf_r (struct _reent *, char *, size_t *, const char *, ...) __attribute__ ((__format__ (__printf__, 4, 5)))
+                                                            ;
+char * _asnprintf_r (struct _reent *, char *restrict, size_t *restrict, const char *restrict, ...) __attribute__ ((__format__ (__printf__, 4, 5)))
+                                                            ;
+int _asprintf_r (struct _reent *, char **restrict, const char *restrict, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int _diprintf_r (struct _reent *, int, const char *, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int _dprintf_r (struct _reent *, int, const char *restrict, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int _fclose_r (struct _reent *, FILE *);
+int _fcloseall_r (struct _reent *);
+FILE * _fdopen_r (struct _reent *, int, const char *);
+int _fflush_r (struct _reent *, FILE *);
+int _fgetc_r (struct _reent *, FILE *);
+int _fgetc_unlocked_r (struct _reent *, FILE *);
+char * _fgets_r (struct _reent *, char *restrict, int, FILE *restrict);
+char * _fgets_unlocked_r (struct _reent *, char *restrict, int, FILE *restrict);
+
+
+
+
+int _fgetpos_r (struct _reent *, FILE *, fpos_t *);
+int _fsetpos_r (struct _reent *, FILE *, const fpos_t *);
+
+int _fiprintf_r (struct _reent *, FILE *, const char *, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int _fiscanf_r (struct _reent *, FILE *, const char *, ...) __attribute__ ((__format__ (__scanf__, 3, 4)))
+                                                           ;
+FILE * _fmemopen_r (struct _reent *, void *restrict, size_t, const char *restrict);
+FILE * _fopen_r (struct _reent *, const char *restrict, const char *restrict);
+FILE * _freopen_r (struct _reent *, const char *restrict, const char *restrict, FILE *restrict);
+int _fprintf_r (struct _reent *, FILE *restrict, const char *restrict, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int _fpurge_r (struct _reent *, FILE *);
+int _fputc_r (struct _reent *, int, FILE *);
+int _fputc_unlocked_r (struct _reent *, int, FILE *);
+int _fputs_r (struct _reent *, const char *restrict, FILE *restrict);
+int _fputs_unlocked_r (struct _reent *, const char *restrict, FILE *restrict);
+size_t _fread_r (struct _reent *, void * restrict, size_t _size, size_t _n, FILE *restrict);
+size_t _fread_unlocked_r (struct _reent *, void * restrict, size_t _size, size_t _n, FILE *restrict);
+int _fscanf_r (struct _reent *, FILE *restrict, const char *restrict, ...) __attribute__ ((__format__ (__scanf__, 3, 4)))
+                                                           ;
+int _fseek_r (struct _reent *, FILE *, off_t, int);
+int _fseeko_r (struct _reent *, FILE *, _off_t, int);
+long _ftell_r (struct _reent *, FILE *);
+_off_t _ftello_r (struct _reent *, FILE *);
+void _rewind_r (struct _reent *, FILE *);
+size_t _fwrite_r (struct _reent *, const void * restrict, size_t _size, size_t _n, FILE *restrict);
+size_t _fwrite_unlocked_r (struct _reent *, const void * restrict, size_t _size, size_t _n, FILE *restrict);
+int _getc_r (struct _reent *, FILE *);
+int _getc_unlocked_r (struct _reent *, FILE *);
+int _getchar_r (struct _reent *);
+int _getchar_unlocked_r (struct _reent *);
+char * _gets_r (struct _reent *, char *);
+int _iprintf_r (struct _reent *, const char *, ...) __attribute__ ((__format__ (__printf__, 2, 3)))
+                                                            ;
+int _iscanf_r (struct _reent *, const char *, ...) __attribute__ ((__format__ (__scanf__, 2, 3)))
+                                                           ;
+FILE * _open_memstream_r (struct _reent *, char **, size_t *);
+void _perror_r (struct _reent *, const char *);
+int _printf_r (struct _reent *, const char *restrict, ...) __attribute__ ((__format__ (__printf__, 2, 3)))
+                                                            ;
+int _putc_r (struct _reent *, int, FILE *);
+int _putc_unlocked_r (struct _reent *, int, FILE *);
+int _putchar_unlocked_r (struct _reent *, int);
+int _putchar_r (struct _reent *, int);
+int _puts_r (struct _reent *, const char *);
+int _remove_r (struct _reent *, const char *);
+int _rename_r (struct _reent *, const char *_old, const char *_new)
+                                          ;
+int _scanf_r (struct _reent *, const char *restrict, ...) __attribute__ ((__format__ (__scanf__, 2, 3)))
+                                                           ;
+int _siprintf_r (struct _reent *, char *, const char *, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int _siscanf_r (struct _reent *, const char *, const char *, ...) __attribute__ ((__format__ (__scanf__, 3, 4)))
+                                                           ;
+int _sniprintf_r (struct _reent *, char *, size_t, const char *, ...) __attribute__ ((__format__ (__printf__, 4, 5)))
+                                                            ;
+int _snprintf_r (struct _reent *, char *restrict, size_t, const char *restrict, ...) __attribute__ ((__format__ (__printf__, 4, 5)))
+                                                            ;
+int _sprintf_r (struct _reent *, char *restrict, const char *restrict, ...) __attribute__ ((__format__ (__printf__, 3, 4)))
+                                                            ;
+int _sscanf_r (struct _reent *, const char *restrict, const char *restrict, ...) __attribute__ ((__format__ (__scanf__, 3, 4)))
+                                                           ;
+char * _tempnam_r (struct _reent *, const char *, const char *);
+FILE * _tmpfile_r (struct _reent *);
+char * _tmpnam_r (struct _reent *, char *);
+int _ungetc_r (struct _reent *, int, FILE *);
+int _vasiprintf_r (struct _reent *, char **, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+char * _vasniprintf_r (struct _reent*, char *, size_t *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 4, 0)))
+                                                            ;
+char * _vasnprintf_r (struct _reent*, char *, size_t *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 4, 0)))
+                                                            ;
+int _vasprintf_r (struct _reent *, char **, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int _vdiprintf_r (struct _reent *, int, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int _vdprintf_r (struct _reent *, int, const char *restrict, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int _vfiprintf_r (struct _reent *, FILE *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int _vfiscanf_r (struct _reent *, FILE *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 3, 0)))
+                                                           ;
+int _vfprintf_r (struct _reent *, FILE *restrict, const char *restrict, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int _vfscanf_r (struct _reent *, FILE *restrict, const char *restrict, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 3, 0)))
+                                                           ;
+int _viprintf_r (struct _reent *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 2, 0)))
+                                                            ;
+int _viscanf_r (struct _reent *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 2, 0)))
+                                                           ;
+int _vprintf_r (struct _reent *, const char *restrict, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 2, 0)))
+                                                            ;
+int _vscanf_r (struct _reent *, const char *restrict, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 2, 0)))
+                                                           ;
+int _vsiprintf_r (struct _reent *, char *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int _vsiscanf_r (struct _reent *, const char *, const char *, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 3, 0)))
+                                                           ;
+int _vsniprintf_r (struct _reent *, char *, size_t, const char *, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 4, 0)))
+                                                            ;
+int _vsnprintf_r (struct _reent *, char *restrict, size_t, const char *restrict, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 4, 0)))
+                                                            ;
+int _vsprintf_r (struct _reent *, char *restrict, const char *restrict, __gnuc_va_list) __attribute__ ((__format__ (__printf__, 3, 0)))
+                                                            ;
+int _vsscanf_r (struct _reent *, const char *restrict, const char *restrict, __gnuc_va_list) __attribute__ ((__format__ (__scanf__, 3, 0)))
+                                                           ;
+
+
+
+int fpurge (FILE *);
+ssize_t __getdelim (char **, size_t *, int, FILE *);
+ssize_t __getline (char **, size_t *, FILE *);
+# 574 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdio.h" 3
+int __srget_r (struct _reent *, FILE *);
+int __swbuf_r (struct _reent *, int, FILE *);
+# 684 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdio.h" 3
+static __inline__ int __sputc_r(struct _reent *_ptr, int _c, FILE *_p) {
+
+
+
+
+ if (--_p->_w >= 0 || (_p->_w >= _p->_lbfsize && (char)_c != '\n'))
+  return (*_p->_p++ = _c);
+ else
+  return (__swbuf_r(_ptr, _c, _p));
+}
+# 767 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdio.h" 3
+
+# 3 "myLib.h" 2
+# 11 "myLib.h"
+
+# 11 "myLib.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-# 65 "myLib.h"
+# 71 "myLib.h"
 extern unsigned short *videoBuffer;
-# 86 "myLib.h"
+# 92 "myLib.h"
 typedef struct {
  u16 tileimg[8192];
 } charblock;
@@ -1088,12 +1345,12 @@ typedef struct {
 
 
 extern OBJ_ATTR shadowOAM[];
-# 159 "myLib.h"
+# 165 "myLib.h"
 void hideSprites();
-# 180 "myLib.h"
+# 186 "myLib.h"
 extern unsigned short oldButtons;
 extern unsigned short buttons;
-# 191 "myLib.h"
+# 197 "myLib.h"
 typedef volatile struct {
     volatile const void *src;
     volatile void *dst;
@@ -1102,14 +1359,16 @@ typedef volatile struct {
 
 
 extern DMA *dma;
-# 232 "myLib.h"
+# 238 "myLib.h"
 void DMANow(int channel, volatile const void *src, volatile void *dst, unsigned int cnt);
 
 
 
 
 int collision(int rowA, int colA, int heightA, int widthA, int rowB, int colB, int heightB, int widthB);
-# 323 "myLib.h"
+int birdCollision(int rowA, int colA, int heightA, int widthA, int rowB, int colB, int heightB, int widthB);
+int myRandom(int size);
+# 330 "myLib.h"
 typedef struct{
     const unsigned char* data;
     int length;
@@ -1138,6 +1397,8 @@ typedef struct {
     int curFrame;
     int numFrames;
     int active;
+    int leftToRight;
+    int isCollide;
 } SMLBIRDS;
 
 typedef struct {
@@ -1178,7 +1439,7 @@ typedef struct {
  int rdel;
  int height;
  int width;
- int roriginal;
+
  int bulletTimer;
  int cDirection;
  int isJump;
@@ -1189,6 +1450,8 @@ typedef struct {
  int prevAniState;
  int aniCounter;
  int curFrame;
+
+ int jumpmode;
 } PLAYER;
 
 typedef struct {
@@ -1239,6 +1502,7 @@ void initSmlbirds();
 void updateSmlbirds();
 void drawSmlbirds();
 void fireSmlbirds();
+void drawHitSmlbirds(SMLBIRDS *s, int j);
 
 void initLanterns();
 void updateLanterns();
@@ -1258,7 +1522,8 @@ void drawLive();
 
 void updateLive();
 # 4 "level1.c" 2
-
+# 1 "myLib.h" 1
+# 5 "level1.c" 2
 # 1 "spritesheet.h" 1
 # 21 "spritesheet.h"
 extern const unsigned short spritesheetTiles[16384];
@@ -1323,6 +1588,7 @@ OBJ_ATTR shadowOAM[128];
 enum { PLAYUP, PLAYDOWN, PLAYHIT, PLAYRIGHT, PLAYLEFT, PLAYIDLE};
 
 
+
 SOUND soundA;
 SOUND soundB;
 
@@ -1374,20 +1640,44 @@ void initPlayer() {
  player.col = 120;
  player.cdel = 2;
  player.rdel = ((0) << 8);
- player.roriginal = 20;
+
  player.height = 16;
  player.width = 16;
  player.isJump = 0;
  player.isDown = 1;
  player.maxSpeed = ((1) << 8);
- player.rplayer = 45;
+ player.rplayer = player.row;
  player.aniState = PLAYIDLE;
 }
 void drawPlayer() {
 
- shadowOAM[0].attr0 = (0xFF & ((player.row) >> 8))| (0<<13) | (0<<14);
-    shadowOAM[0].attr1 = (0x1FF & player.col) | (1<<14);
-    shadowOAM[0].attr2 = ((0)<<12) | ((0)*32+(14));
+ if (player.aniState == PLAYIDLE) {
+  shadowOAM[0].attr0 = (0xFF & ((player.row) >> 8))| (0<<13) | (0<<14);
+     shadowOAM[0].attr1 = (0x1FF & player.col) | (1<<14);
+     shadowOAM[0].attr2 = ((0)<<12) | ((0)*32+(14));
+ } else if (player.aniState == PLAYLEFT) {
+  shadowOAM[0].attr0 = (0xFF & ((player.row) >> 8))| (0<<13) | (0<<14);
+     shadowOAM[0].attr1 = (0x1FF & player.col) | (1<<14);
+     shadowOAM[0].attr2 = ((0)<<12) | (((player.curFrame % 3 * 2))*32+(20));
+ } else if (player.aniState == PLAYRIGHT) {
+  shadowOAM[0].attr0 = (0xFF & ((player.row) >> 8))| (0<<13) | (0<<14);
+     shadowOAM[0].attr1 = (0x1FF & player.col) | (1<<14);
+     shadowOAM[0].attr2 = ((0)<<12) | (((player.curFrame % 3 * 2))*32+(18));
+ } else if (player.aniState == PLAYUP) {
+  shadowOAM[0].attr0 = (0xFF & ((player.row) >> 8))| (0<<13) | (0<<14);
+     shadowOAM[0].attr1 = (0x1FF & player.col) | (1<<14);
+     shadowOAM[0].attr2 = ((0)<<12) | ((0)*32+(16));
+ } else if (player.aniState == PLAYDOWN) {
+  shadowOAM[0].attr0 = (0xFF & ((player.row) >> 8))| (0<<13) | (0<<14);
+     shadowOAM[0].attr1 = (0x1FF & player.col) | (1<<14);
+     shadowOAM[0].attr2 = ((0)<<12) | ((4)*32+(16));
+ } else if (player.aniState == PLAYHIT) {
+  shadowOAM[0].attr0 = (0xFF & ((player.row) >> 8))| (0<<13) | (0<<14);
+     shadowOAM[0].attr1 = (0x1FF & player.col) | (1<<14);
+     shadowOAM[0].attr2 = ((0)<<12) | ((2)*32+(16));
+ }
+
+
 }
 void updatePlayer() {
  if (player.aniState == PLAYIDLE) {
@@ -1407,7 +1697,7 @@ void updatePlayer() {
 
 
 
- if (player.aniState != PLAYIDLE) {
+ if (player.aniState != PLAYIDLE && player.aniState != PLAYUP) {
   if (player.curFrame < 2) {
    player.curFrame++;
   } else {
@@ -1418,10 +1708,8 @@ void updatePlayer() {
 
  if (player.aniState == PLAYIDLE) {
   player.curFrame = 0;
-  player.aniState = player.prevAniState;
- } else {
-  player.aniCounter++;
  }
+
  if ((!(~(oldButtons)&((1<<0))) && (~buttons & ((1<<0))))) {
   aniCounter = 0;
   if (!player.isJump) {
@@ -1430,14 +1718,25 @@ void updatePlayer() {
    player.rdel -= ((7) << 8);
   }
  }
- player.rdel += grav;
- player.row += player.rdel;
 
+ if (player.isJump == 1) {
+  if (player.rplayer < player.row) {
+   player.aniState = PLAYDOWN;
+  }
+  if (player.rplayer > player.row) {
+   player.aniState = PLAYUP;
+  }
+
+ }
+ player.rdel += grav;
+ player.rplayer = player.row;
+
+ player.row += player.rdel;
  if (((player.row) >> 8) > 135) {
   player.rdel = 0;
-
   player.row = ((135) << 8);
   player.isJump = 0;
+
  }
 
 }
@@ -1460,21 +1759,18 @@ void firePlayer() {
   }
  }
 }
+
+
+
 void initSmlbirds() {
  for (int j = 0; j < 4; j++) {
   smlbird1[j].height = 16;
   smlbird1[j].width = 16;
   int random1 = rand() % 3;
 
+
   smlbird1[j].row = rand()% 70 + 30;
-
-  if (j == 0) {
-   smlbird1[j].col = 10;
-  } else {
-   smlbird1[j].col = smlbird1[j - 1].col + smlbird1[j - 1].width + 40;
-  }
-
-
+  smlbird1[j].col = -10;
   smlbird1[j].rdel = 1;
 
   if (random1 == 0) {
@@ -1491,26 +1787,49 @@ void initSmlbirds() {
   smlbird1[j].curFrame = 0;
   smlbird1[j].numFrames = 0;
   smlbird1[j].active = 1;
+  smlbird1[j].isCollide = 0;
  }
 }
 void updateSmlbirds() {
  for (int j = 0; j < 4; j++) {
-  if (smlbird1[j].col + smlbird1[j].width <= 0) {
+  if (smlbird1[j].col + smlbird1[j].width <= 0 || smlbird1[j].col > 240 ) {
 
-   smlbird1[j].col = 240 - smlbird1[j].width;
-   smlbird1[j].row = rand()% 70 + 30;
-
-
-
-
-   int random1 = rand()%3;
-   if (random1 == 0) {
-    smlbird1[j].cdel = 1;
-   } else if (random1 == 1) {
-    smlbird1[j].cdel = 2;
+   int randomDirection = rand() % 2;
+   if (randomDirection == 0) {
+    smlbird1[j].leftToRight = 0;
    } else {
-    smlbird1[j].cdel = 3;
+    smlbird1[j].leftToRight = 1;
    }
+
+   if (smlbird1[j].leftToRight == 0) {
+    smlbird1[j].col = 240 - smlbird1[j].width;
+    smlbird1[j].row = myRandom (30) + 40;
+
+
+
+
+    int random1 = rand()%3;
+    if (random1 == 0) {
+     smlbird1[j].cdel = 1;
+    } else if (random1 == 1) {
+     smlbird1[j].cdel = 2;
+    } else {
+     smlbird1[j].cdel = 3;
+    }
+   } else {
+    smlbird1[j].col = 0;
+    smlbird1[j].row = rand()% 70 + 30;
+    int random1 = rand()%3;
+    if (random1 == 0) {
+     smlbird1[j].cdel = -1;
+    } else if (random1 == 1) {
+     smlbird1[j].cdel = -2;
+    } else {
+     smlbird1[j].cdel = -3;
+    }
+   }
+
+
   }
 
   int colli1 = collision(smlbird1[j].row, smlbird1[j].col, smlbird1[j].height,
@@ -1519,28 +1838,61 @@ void updateSmlbirds() {
   if (colli1 && smlbird1[j].active) {
    smlbird1[j].active = 0;
    smlbird1[j].aniState = 2;
+
+   drawHitSmlbirds(&smlbird1[j], j);
+   smlbird1[j].curFrame = aniCounter % 6 * 2;
+
    birdsNum--;
    playSoundB( hitbird, 6586, 11025, 0);
   }
+
+
+
+
+
  }
 
 
   for (int j = 0; j < 4; j++) {
    smlbird1[j].col -= smlbird1[j].cdel;
   }
-# 252 "level1.c"
+# 310 "level1.c"
+}
+
+void drawHitSmlbirds(SMLBIRDS *s, int j) {
+ if (s -> isCollide) {
+  shadowOAM[j + 9].attr0 = (0xFF & smlbird1[j].row) | (0<<13) | (0<<14);
+     shadowOAM[j + 9].attr1 = (0x1FF & smlbird1[j].col) | (1<<14);
+     shadowOAM[j + 9].attr2 = ((0)<<12) | ((26)*32+(smlbird1[j].curFrame));
+ }
+
+
 }
 void drawSmlbirds() {
  for (int j = 0; j < 4; j++) {
   if (smlbird1[j].active && smlbird1[j].aniState == 0) {
+   if (smlbird1[j].leftToRight == 0) {
+    shadowOAM[j + 9].attr0 = (0xFF & smlbird1[j].row) | (0<<13) | (0<<14);
+       shadowOAM[j + 9].attr1 = (0x1FF & smlbird1[j].col) | (1<<14);
+       shadowOAM[j + 9].attr2 = ((0)<<12) | ((0)*32+((aniCounter % 6) * 2));
+   } else {
+    shadowOAM[j + 9].attr0 = (0xFF & smlbird1[j].row) | (0<<13) | (0<<14);
+       shadowOAM[j + 9].attr1 = (0x1FF & smlbird1[j].col) | (1<<14);
+       shadowOAM[j + 9].attr2 = ((0)<<12) | ((2)*32+((aniCounter % 6) * 2));
+   }
 
-   shadowOAM[j + 9].attr0 = (0xFF & smlbird1[j].row) | (0<<13) | (0<<14);
-      shadowOAM[j + 9].attr1 = (0x1FF & smlbird1[j].col) | (1<<14);
-      shadowOAM[j + 9].attr2 = ((0)<<12) | ((0)*32+((aniCounter % 6) * 2));
   } else {
-   shadowOAM[j + 9].attr0 = (0xFF & smlbird1[j].row) | (0<<13) | (0<<14);
-      shadowOAM[j + 9].attr1 = (0x1FF & smlbird1[j].col) | (1<<14);
-      shadowOAM[j + 9].attr2 = ((0)<<12) | ((30)*32+(30));
+   if (smlbird1[j].isCollide) {
+    shadowOAM[j + 9].attr0 = (0xFF & smlbird1[j].row) | (0<<13) | (0<<14);
+       shadowOAM[j + 9].attr1 = (0x1FF & smlbird1[j].col) | (1<<14);
+       shadowOAM[j + 9].attr2 = ((0)<<12) | ((26)*32+(smlbird1[j].curFrame));
+
+   } else {
+    shadowOAM[j + 9].attr0 = (0xFF & smlbird1[j].row) | (0<<13) | (0<<14);
+       shadowOAM[j + 9].attr1 = (0x1FF & smlbird1[j].col) | (1<<14);
+       shadowOAM[j + 9].attr2 = ((0)<<12) | ((30)*32+(30));
+   }
+
   }
  }
 }
@@ -1622,8 +1974,13 @@ void updateLanterns() {
     lanterns[j].lightUpState = 1;
     playSoundB( matchSound, 19369, 11025, 0);
     lanternNum++;
+    if (lanterns[j].active) {
+     player.aniState = PLAYHIT;
+    }
    }
   }
+
+
 
  }
  if (aniCounter % 50 == 0) {
@@ -1639,7 +1996,6 @@ void updateLanterns() {
 
 }
 void drawLanterns() {
-
  for (int j = 0; j < 10; j++) {
   if (!lanterns[j].active) {
    if (lanterns[j].aniState == 0) {
@@ -1746,6 +2102,4 @@ void drawLanterns() {
 
   }
  }
-
-
 }

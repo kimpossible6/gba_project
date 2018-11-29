@@ -30,6 +30,7 @@ int lanternNum;
 OBJ_ATTR shadowOAM[128];
 enum { PLAYUP, PLAYDOWN, PLAYHIT, PLAYRIGHT, PLAYLEFT, PLAYIDLE};
 
+
 //for sound 
 SOUND soundA;
 SOUND soundB;
@@ -82,20 +83,44 @@ void initPlayer() {
 	player.col = 120;
 	player.cdel = 2;
 	player.rdel = SHIFTUP(0);
-	player.roriginal = 20;
+	
 	player.height = 16;
 	player.width = 16;
 	player.isJump = 0;
 	player.isDown = 1;
 	player.maxSpeed = SHIFTUP(1);
-	player.rplayer = 45;
+	player.rplayer = player.row;
 	player.aniState = PLAYIDLE;
 }
 void drawPlayer() {
 
-	shadowOAM[0].attr0 = (ROWMASK & SHIFTDOWN(player.row))| ATTR0_4BPP | ATTR0_SQUARE;
-    shadowOAM[0].attr1 = (COLMASK & player.col) | ATTR1_SMALL;
-    shadowOAM[0].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(0, 14);
+	if (player.aniState == PLAYIDLE) {
+		shadowOAM[0].attr0 = (ROWMASK & SHIFTDOWN(player.row))| ATTR0_4BPP | ATTR0_SQUARE;
+    	shadowOAM[0].attr1 = (COLMASK & player.col) | ATTR1_SMALL;
+    	shadowOAM[0].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(0, 14);
+	} else if (player.aniState == PLAYLEFT) {
+		shadowOAM[0].attr0 = (ROWMASK & SHIFTDOWN(player.row))| ATTR0_4BPP | ATTR0_SQUARE;
+    	shadowOAM[0].attr1 = (COLMASK & player.col) | ATTR1_SMALL;
+    	shadowOAM[0].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID((player.curFrame % 3 * 2), 20);
+	} else if (player.aniState == PLAYRIGHT) {
+		shadowOAM[0].attr0 = (ROWMASK & SHIFTDOWN(player.row))| ATTR0_4BPP | ATTR0_SQUARE;
+    	shadowOAM[0].attr1 = (COLMASK & player.col) | ATTR1_SMALL;
+    	shadowOAM[0].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID((player.curFrame % 3 * 2), 18);
+	} else if (player.aniState == PLAYUP) {
+		shadowOAM[0].attr0 = (ROWMASK & SHIFTDOWN(player.row))| ATTR0_4BPP | ATTR0_SQUARE;
+    	shadowOAM[0].attr1 = (COLMASK & player.col) | ATTR1_SMALL;
+    	shadowOAM[0].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(0, 16);
+	} else if (player.aniState == PLAYDOWN) {
+		shadowOAM[0].attr0 = (ROWMASK & SHIFTDOWN(player.row))| ATTR0_4BPP | ATTR0_SQUARE;
+    	shadowOAM[0].attr1 = (COLMASK & player.col) | ATTR1_SMALL;
+    	shadowOAM[0].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(4, 16);
+	} else if (player.aniState == PLAYHIT) {
+		shadowOAM[0].attr0 = (ROWMASK & SHIFTDOWN(player.row))| ATTR0_4BPP | ATTR0_SQUARE;
+    	shadowOAM[0].attr1 = (COLMASK & player.col) | ATTR1_SMALL;
+    	shadowOAM[0].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(2, 16);
+	}
+
+	
 }
 void updatePlayer() {
 	if (player.aniState == PLAYIDLE) {
@@ -115,21 +140,19 @@ void updatePlayer() {
 
 	
 	//under each player state, have three motions
-	if (player.aniState != PLAYIDLE) {
+	if (player.aniState != PLAYIDLE && player.aniState != PLAYUP) {
 		if (player.curFrame < 2) {
 			player.curFrame++;
 		} else {
 			player.curFrame = 0;
 		}
-	} 
+	}
 	
 
 	if (player.aniState == PLAYIDLE) {
 		player.curFrame = 0;
-		player.aniState = player.prevAniState;
-	} else {
-		player.aniCounter++;
-	}
+	} 
+
 	if (BUTTON_PRESSED(BUTTON_A)) {
 		aniCounter = 0;
 		if (!player.isJump) {
@@ -138,14 +161,25 @@ void updatePlayer() {
 			player.rdel -= SHIFTUP(7);
 		} 
 	}
-	player.rdel += grav;
-	player.row += player.rdel;
 
+	if (player.isJump == 1) {
+		if (player.rplayer < player.row) {
+			player.aniState = PLAYDOWN;
+		}
+		if (player.rplayer > player.row) {
+			player.aniState = PLAYUP;
+		}
+		
+	}
+	player.rdel += grav;
+	player.rplayer = player.row;
+
+	player.row += player.rdel;
 	if (SHIFTDOWN(player.row) > 135) {
 		player.rdel = 0;
-
 		player.row = SHIFTUP(135);
 		player.isJump = 0;
+		
 	} 
 
 }
@@ -168,21 +202,18 @@ void firePlayer() {
 		}
 	}
 }
+
+
+
 void initSmlbirds() {
 	for (int j = 0; j < 4; j++) {
 		smlbird1[j].height = 16;
 		smlbird1[j].width = 16;
 		int random1 = rand() % 3;
+		
 		//from left to right 
 		smlbird1[j].row = rand()% 70 + 30;
-
-		if (j == 0) {
-			smlbird1[j].col = 10;
-		} else {
-			smlbird1[j].col = smlbird1[j - 1].col + smlbird1[j - 1].width + 40;
-		}
-		
-		
+		smlbird1[j].col = -10;		
 		smlbird1[j].rdel = 1; 
 		
 		if (random1 == 0) {
@@ -199,26 +230,49 @@ void initSmlbirds() {
 		smlbird1[j].curFrame = 0;
 		smlbird1[j].numFrames = 0;
 		smlbird1[j].active = 1;
+		smlbird1[j].isCollide = 0;
 	}
 }
 void updateSmlbirds() {
 	for (int j = 0; j < 4; j++) {
-		if (smlbird1[j].col + smlbird1[j].width <= 0) {
-			// smlbird1[j].active = 0;
-			smlbird1[j].col = SCREENWIDTH - smlbird1[j].width;
-			smlbird1[j].row = rand()% 70 + 30;
-			// smlbird1[j].aniState = 1;
-			// birdsNum--;
-			// smlbird1[j].row += smlbird1[j].rdel;
-			// smlbird1[j].cdel *= -1;
-			int random1 = rand()%3;
-			if (random1 == 0) {
-				smlbird1[j].cdel = 1;
-			} else if (random1 == 1) {
-				smlbird1[j].cdel = 2;
+		if (smlbird1[j].col + smlbird1[j].width <= 0 || smlbird1[j].col > SCREENWIDTH ) {
+			//decide to fly from left to right or from right to left
+			int randomDirection = rand() % 2;
+			if (randomDirection == 0) {
+				smlbird1[j].leftToRight = 0;
 			} else {
-				smlbird1[j].cdel = 3;
+				smlbird1[j].leftToRight = 1;
 			}
+
+			if (smlbird1[j].leftToRight == 0) {
+				smlbird1[j].col = SCREENWIDTH - smlbird1[j].width;
+				smlbird1[j].row = myRandom (30) + 40;
+				// smlbird1[j].aniState = 1;
+				// birdsNum--;
+				// smlbird1[j].row += smlbird1[j].rdel;
+				// smlbird1[j].cdel *= -1;
+				int random1 = rand()%3;
+				if (random1 == 0) {
+					smlbird1[j].cdel = 1;
+				} else if (random1 == 1) {
+					smlbird1[j].cdel = 2;
+				} else {
+					smlbird1[j].cdel = 3;
+				}
+			} else {
+				smlbird1[j].col = 0;
+				smlbird1[j].row = rand()% 70 + 30;
+				int random1 = rand()%3;
+				if (random1 == 0) {
+					smlbird1[j].cdel = -1;
+				} else if (random1 == 1) {
+					smlbird1[j].cdel = -2;
+				} else {
+					smlbird1[j].cdel = -3;
+				}
+			}
+
+			
 		} 
 		//player hits birds collision 
 		int colli1 = collision(smlbird1[j].row, smlbird1[j].col, smlbird1[j].height, 
@@ -227,9 +281,18 @@ void updateSmlbirds() {
 		if (colli1 && smlbird1[j].active) {
 			smlbird1[j].active = 0;
 			smlbird1[j].aniState = 2;
+			// smlbird1[j].isCollide = 1;
+			drawHitSmlbirds(&smlbird1[j], j); 
+			smlbird1[j].curFrame = aniCounter % 6 * 2;
+
 			birdsNum--;
 			playSoundB( hitbird, HITBIRDLEN, HITBIRDFREQ, 0);
 		}
+		// if (smlbird1[j].isCollide == 1) {
+		// 	smlbird1[j].numFrames = 1;
+		// }
+
+
 	}	
 
 	// if (aniCounter % 10 == 0) {
@@ -244,23 +307,42 @@ void updateSmlbirds() {
 	// 	}
 	// }
 
-	
+}
 
+void drawHitSmlbirds(SMLBIRDS *s, int j) {
+	if (s -> isCollide) {
+		shadowOAM[j + 9].attr0 = (ROWMASK & smlbird1[j].row) | ATTR0_4BPP | ATTR0_SQUARE;
+	    shadowOAM[j + 9].attr1 = (COLMASK & smlbird1[j].col) | ATTR1_SMALL;
+	    shadowOAM[j + 9].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(26, smlbird1[j].curFrame);
+	}
 
-	
 
 }
 void drawSmlbirds() {
 	for (int j = 0; j < 4; j++) {
 		if (smlbird1[j].active && smlbird1[j].aniState == 0) {
-
-			shadowOAM[j + 9].attr0 = (ROWMASK & smlbird1[j].row) | ATTR0_4BPP | ATTR0_SQUARE;
-	    	shadowOAM[j + 9].attr1 = (COLMASK & smlbird1[j].col) | ATTR1_SMALL;
-	    	shadowOAM[j + 9].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(0, (aniCounter % 6) * 2);
+			if (smlbird1[j].leftToRight == 0) {
+				shadowOAM[j + 9].attr0 = (ROWMASK & smlbird1[j].row) | ATTR0_4BPP | ATTR0_SQUARE;
+	    		shadowOAM[j + 9].attr1 = (COLMASK & smlbird1[j].col) | ATTR1_SMALL;
+	    		shadowOAM[j + 9].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(0, (aniCounter % 6) * 2);
+			} else {
+				shadowOAM[j + 9].attr0 = (ROWMASK & smlbird1[j].row) | ATTR0_4BPP | ATTR0_SQUARE;
+	    		shadowOAM[j + 9].attr1 = (COLMASK & smlbird1[j].col) | ATTR1_SMALL;
+	    		shadowOAM[j + 9].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(2, (aniCounter % 6) * 2);
+			}
+		
 		} else {
-			shadowOAM[j + 9].attr0 = (ROWMASK & smlbird1[j].row) | ATTR0_4BPP | ATTR0_SQUARE;
-	    	shadowOAM[j + 9].attr1 = (COLMASK & smlbird1[j].col) | ATTR1_SMALL;
-	    	shadowOAM[j + 9].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(30, 30);
+			if (smlbird1[j].isCollide) {
+				shadowOAM[j + 9].attr0 = (ROWMASK & smlbird1[j].row) | ATTR0_4BPP | ATTR0_SQUARE;
+	    		shadowOAM[j + 9].attr1 = (COLMASK & smlbird1[j].col) | ATTR1_SMALL;
+	    		shadowOAM[j + 9].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(26, smlbird1[j].curFrame);
+
+			} else {
+				shadowOAM[j + 9].attr0 = (ROWMASK & smlbird1[j].row) | ATTR0_4BPP | ATTR0_SQUARE;
+	    		shadowOAM[j + 9].attr1 = (COLMASK & smlbird1[j].col) | ATTR1_SMALL;
+	    		shadowOAM[j + 9].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(30, 30);
+			}
+			
 		}
 	}		
 }
@@ -342,9 +424,14 @@ void updateLanterns() {
 				lanterns[j].lightUpState = 1;
 				playSoundB( matchSound, MATCHSOUNDLEN, MATCHSOUNDFREQ, 0);
 				lanternNum++;
+				if (lanterns[j].active) {
+					player.aniState = PLAYHIT;
+				}
 			}
 		}
 
+			
+		
 	}
 	if (aniCounter % 50 == 0) {
 		for (int j = 0; j < 10; j++) {
@@ -359,7 +446,6 @@ void updateLanterns() {
 
 }
 void drawLanterns() {
-
 	for (int j = 0; j < 10; j++) {
 		if (!lanterns[j].active) {
 			if (lanterns[j].aniState == 0) {
@@ -466,8 +552,6 @@ void drawLanterns() {
 		
 		}
 	}
-	
-
 }
 
 

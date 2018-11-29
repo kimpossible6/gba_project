@@ -151,6 +151,48 @@ int collision(int rowA, int colA, int heightA, int widthA, int rowB, int colB, i
         && colA <= colB + widthB - 1 && colA + widthA - 1 >= colB;
 }
 
+int myRandom (int size) {
+    int i, n;
+    static int numNums = 0;
+    static int *numArr = NULL;
+
+    // Initialize with a specific size.
+
+    if (size >= 0) {
+        if (numArr != NULL)
+            free (numArr);
+        if ((numArr = malloc (sizeof(int) * size)) == NULL)
+            return ERR_NO_MEM;
+        for (i = 0; i  < size; i++)
+            numArr[i] = i;
+        numNums = size;
+    }
+
+    // Error if no numbers left in pool.
+
+    if (numNums == 0)
+       return ERR_NO_NUM;
+
+    // Get random number from pool and remove it (rnd in this
+    //   case returns a number between 0 and numNums-1 inclusive).
+
+    n = rand() % numNums;
+    i = numArr[n];
+    numArr[n] = numArr[numNums-1];
+    numNums--;
+    if (numNums == 0) {
+        free (numArr);
+        numArr = 0;
+    }
+
+    return i;
+}
+
+
+int birdCollision(int rowA, int colA, int heightA, int widthA, int rowB, int colB, int heightB, int widthB) {
+    return rowA + 10 <= rowB + heightB - 1 && rowA + heightA - 1 >= rowB + 10
+        && colA + 10 <= colB + widthB - 1 && colA + widthA - 1 >= colB - 10;
+}
 // Hides all sprites in the shadowOAM
 void hideSprites() {
     // TODO 3.1: Complete this function

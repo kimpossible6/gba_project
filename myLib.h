@@ -1,5 +1,11 @@
+
+#include <stdio.h>
+#include <stdlib.h>
 #ifndef MY_LIB_H
 #define MY_LIB_H
+//random number generator error
+#define ERR_NO_NUM -1
+#define ERR_NO_MEM -2
 
 // Common Typedefs
 typedef unsigned char u8;
@@ -235,7 +241,8 @@ void DMANow(int channel, volatile const void *src, volatile void *dst, unsigned 
 
 // Miscellaneous Functions
 int collision(int rowA, int colA, int heightA, int widthA, int rowB, int colB, int heightB, int widthB);
-
+int birdCollision(int rowA, int colA, int heightA, int widthA, int rowB, int colB, int heightB, int widthB);
+int myRandom(int size);
 // Timers
 // CONTROLLERS
 #define REG_TM0CNT *(volatile unsigned short*)0x4000102
