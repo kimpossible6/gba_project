@@ -302,13 +302,15 @@ void updatePlayer() {
 		if (!player.isJump) {
 			player.isJump = 1;
 			player.isDown = 0;
-			player.rdel -= SHIFTUP(7);
+			player.rdel = -SHIFTUP(7);
 		} 
 		
 	}
 
 	if (player.isHittingBird) {
-			player.rdel = 0;
+		player.rdel = 0;
+		//solved problem: keep set rdel back to 0 when hits the bird, so need to set hitting bird = 0
+		player.isHittingBird = 0;
 	}
 	if (player.isJump == 1) {
 		if (player.rplayer < player.row) {
@@ -327,7 +329,6 @@ void updatePlayer() {
 		player.rdel = 0;
 		player.row = SHIFTUP(135);
 		player.isJump = 0;
-		player.isHittingBird = 0;
 		
 	} 
 
