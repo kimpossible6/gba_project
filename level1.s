@@ -196,6 +196,7 @@ updatePlayer:
 	cmp	r0, #0
 	movne	r0, #0
 	strne	r0, [r3, #12]
+	strne	r0, [r3, #64]
 	cmp	r2, #1
 	ldr	r1, [r3]
 	beq	.L32
@@ -214,7 +215,6 @@ updatePlayer:
 	mov	r1, #34560
 	str	r2, [r3, #12]
 	str	r2, [r3, #32]
-	str	r2, [r3, #64]
 	str	r1, [r3]
 .L22:
 	pop	{r4, r5, lr}
@@ -275,14 +275,14 @@ updatePlayer:
 	b	.L29
 .L54:
 	mov	ip, #1
-	ldr	r1, [r3, #12]
+	ldr	r1, .L55+28
 	cmp	r0, #0
-	sub	r1, r1, #1792
 	str	r1, [r3, #12]
 	str	r2, [r3, #36]
 	str	ip, [r3, #32]
 	ldr	r1, [r3]
 	strne	r2, [r3, #12]
+	strne	r2, [r3, #64]
 .L32:
 	ldr	r2, [r3, #44]
 	cmp	r2, r1
@@ -302,6 +302,7 @@ updatePlayer:
 	.word	.LANCHOR0
 	.word	67109120
 	.word	hOff
+	.word	-1792
 	.size	updatePlayer, .-updatePlayer
 	.align	2
 	.global	firePlayer
@@ -759,7 +760,7 @@ initLanterns:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	push	{r3, r4, r5, r6, r7, r8, r9, r10, fp, lr}
-	mov	r8, #2
+	mov	r8, #1
 	mov	r7, #16
 	ldr	r4, .L142
 	ldr	r5, .L142+4
@@ -1938,7 +1939,7 @@ initLGBird:
 	sub	r5, r1, r5
 	mov	lr, pc
 	bx	r8
-	mvn	r3, #9
+	mvn	r3, #39
 	cmp	r5, #0
 	add	r0, r0, #50
 	stm	r4, {r0, r3, r6}
@@ -2468,56 +2469,59 @@ updateGame1:
 	@ Function supports interworking.
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	ldr	r2, .L383
+	ldr	r2, .L395
 	ldr	r3, [r2]
 	push	{r4, r5, r6, lr}
-	ldr	r4, .L383+4
+	ldr	r4, .L395+4
 	add	r3, r3, #1
 	str	r3, [r2]
 	bl	updatePlayer
 	bl	updateSmlbirds
 	ldr	r3, [r4]
 	cmp	r3, #1
-	bgt	.L380
+	bgt	.L392
 .L368:
 	bl	updateLanterns
 	ldr	r3, [r4]
 	cmp	r3, #1
-	ldr	r3, .L383+8
+	ldr	r3, .L395+8
 	ldr	r3, [r3]
-	ldr	r2, .L383+12
+	ldr	r2, .L395+12
 	rsbeq	r3, r3, #4
 	rsbne	r3, r3, #8
 	str	r3, [r2, #28]
-	ldr	r3, .L383+16
+	ldr	r3, .L395+16
 	mov	lr, pc
 	bx	r3
-	ldr	r5, .L383+20
+	ldr	r5, .L395+20
 	mov	r3, #512
 	mov	r2, #117440512
-	ldr	r1, .L383+24
+	ldr	r1, .L395+24
 	mov	r0, #3
 	mov	lr, pc
 	bx	r5
-	ldr	r3, .L383+28
+	ldr	r3, .L395+28
+	ldr	r3, [r3]
+	cmp	r3, #9
+	bgt	.L371
+	ldr	r3, .L395+32
 	ldrh	r3, [r3]
 	tst	r3, #2
-	beq	.L371
-	ldr	r2, .L383+32
-	ldrh	r2, [r2]
-	tst	r2, #2
-	beq	.L381
-.L371:
+	bne	.L393
+.L372:
 	tst	r3, #4
-	beq	.L372
-	ldr	r3, .L383+32
+	beq	.L374
+	ldr	r3, .L395+36
 	ldrh	r3, [r3]
 	tst	r3, #4
-	beq	.L382
-.L372:
+	bne	.L374
+	ldr	r3, [r4]
+	cmp	r3, #2
+	beq	.L394
+.L374:
 	mov	r2, #67108864
-	ldr	r3, .L383+36
-	ldr	r1, .L383+40
+	ldr	r3, .L395+40
+	ldr	r1, .L395+44
 	ldrh	r3, [r3]
 	strh	r3, [r2, #26]	@ movhi
 	strh	r3, [r2, #22]	@ movhi
@@ -2530,26 +2534,41 @@ updateGame1:
 	strh	r3, [r2, #16]	@ movhi
 	pop	{r4, r5, r6, lr}
 	bx	lr
-.L380:
+.L371:
+	ldr	r3, [r4]
+	cmp	r3, #1
+	beq	.L375
+	cmp	r3, #2
+	bne	.L374
+	b	.L394
+.L393:
+	ldr	r2, .L395+36
+	ldrh	r2, [r2]
+	tst	r2, #2
+	bne	.L372
+	ldr	r2, [r4]
+	cmp	r2, #1
+	bne	.L372
+.L375:
+	mov	r3, #2
+	str	r3, [r4]
+	bl	initGame2
+	b	.L374
+.L392:
 	bl	updateBird2
 	ldr	r3, [r4]
 	cmp	r3, #3
 	bne	.L368
 	bl	updateLGBird
 	b	.L368
-.L382:
+.L394:
 	mov	r3, #3
 	str	r3, [r4]
 	bl	initGame3
-	b	.L372
-.L381:
-	mov	r3, #2
-	str	r3, [r4]
-	bl	initGame2
-	b	.L372
-.L384:
+	b	.L374
+.L396:
 	.align	2
-.L383:
+.L395:
 	.word	aniCounter
 	.word	level
 	.word	livesNum
@@ -2557,6 +2576,7 @@ updateGame1:
 	.word	waitForVBlank
 	.word	DMANow
 	.word	shadowOAM
+	.word	lanternNum
 	.word	oldButtons
 	.word	buttons
 	.word	vOff

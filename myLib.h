@@ -74,6 +74,7 @@ extern unsigned short *videoBuffer;
 
 // Palettes
 #define PALETTE       ((unsigned short *)0x5000000)
+ 
 #define SPRITEPALETTE ((unsigned short *)0x5000200)
 
 // Color

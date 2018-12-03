@@ -1659,13 +1659,10 @@ void updateGame1() {
 
 
 
-
-
-
- if ((!(~(oldButtons)&((1<<1))) && (~buttons & ((1<<1))))) {
+ if ((lanternNum >= 10 && level == 1) || ((!(~(oldButtons)&((1<<1))) && (~buttons & ((1<<1)))) && level == 1) ) {
   level = 2;
   initGame2();
- } else if ((!(~(oldButtons)&((1<<2))) && (~buttons & ((1<<2))))) {
+ } else if ((lanternNum >= 10 && level == 2) || ((!(~(oldButtons)&((1<<2))) && (~buttons & ((1<<2)))) && level == 2)) {
   level = 3;
   initGame3();
  }
@@ -1869,13 +1866,15 @@ void updatePlayer() {
   if (!player.isJump) {
    player.isJump = 1;
    player.isDown = 0;
-   player.rdel -= ((7) << 8);
+   player.rdel = -((7) << 8);
   }
 
  }
 
  if (player.isHittingBird) {
-   player.rdel = 0;
+  player.rdel = 0;
+
+  player.isHittingBird = 0;
  }
  if (player.isJump == 1) {
   if (player.rplayer < player.row) {
@@ -1894,7 +1893,6 @@ void updatePlayer() {
   player.rdel = 0;
   player.row = ((135) << 8);
   player.isJump = 0;
-  player.isHittingBird = 0;
 
  }
 
@@ -2017,7 +2015,7 @@ void updateSmlbirds() {
   for (int j = 0; j < 4; j++) {
    smlbird1[j].col -= smlbird1[j].cdel;
   }
-# 461 "level1.c"
+# 459 "level1.c"
 }
 
 void drawHitSmlbirds(SMLBIRDS *s, int j) {
@@ -2070,8 +2068,8 @@ void initLanterns() {
   lanterns[j].col = rand()%160 + 30;
   int randomrdel = rand()%2;
   int randomcdel = rand()%2;
-     lanterns[j].rdel = 2;
-     lanterns[j].cdel = 2;
+     lanterns[j].rdel = 1;
+     lanterns[j].cdel = 1;
   lanterns[j].width = 16;
   lanterns[j].height = 16;
      lanterns[j].aniCounter = 0;
@@ -2116,7 +2114,7 @@ void updateLanterns() {
   } else if (lanterns[j].col + lanterns[j].width > 200) {
    lanterns[j].col = 200 - lanterns[j].width;
   }
-# 570 "level1.c"
+# 568 "level1.c"
  }
 
 
@@ -2438,7 +2436,7 @@ void initLGBird() {
 
 
   lgbird[j].row = myRandom (30) + 50;
-  lgbird[j].col = -10;
+  lgbird[j].col = -40;
   lgbird[j].rdel = 1;
 
   if (random1 == 0) {

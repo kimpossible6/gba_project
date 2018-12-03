@@ -91,14 +91,11 @@ void updateGame1() {
 		
 	// } 
 
-	// if (lanternNum == 10) {
-	// 	level = 2;
-	// 	initGame2();
-	// }
-	if (BUTTON_PRESSED(BUTTON_B)) {
+	// 
+	if ((lanternNum >= 10 && level == 1) || (BUTTON_PRESSED(BUTTON_B) && level == 1) ) {
 		level = 2;
 		initGame2();
-	} else if (BUTTON_PRESSED(BUTTON_SELECT)) {
+	} else if ((lanternNum >= 10 && level == 2) || (BUTTON_PRESSED(BUTTON_SELECT) && level == 2)) {
 		level = 3; 
 		initGame3();
 	}
@@ -511,8 +508,8 @@ void initLanterns() {
 		lanterns[j].col = rand()%160 + 30;
 		int randomrdel = rand()%2;
 		int randomcdel = rand()%2;
-    	lanterns[j].rdel = 2;
-   		lanterns[j].cdel = 2;
+    	lanterns[j].rdel = 1;
+   		lanterns[j].cdel = 1;
 		lanterns[j].width = 16;
 		lanterns[j].height = 16;
     	lanterns[j].aniCounter = 0;
@@ -889,7 +886,7 @@ void initLGBird() {
 
 		//from left to right 
 		lgbird[j].row = myRandom (30) + 50;
-		lgbird[j].col = -10;		
+		lgbird[j].col = -40;		
 		lgbird[j].rdel = 1; 
 		
 		if (random1 == 0) {

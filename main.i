@@ -2,6 +2,7 @@
 # 1 "<built-in>"
 # 1 "<command-line>"
 # 1 "main.c"
+# 38 "main.c"
 # 1 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdlib.h" 1 3
 # 10 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdlib.h" 3
 # 1 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/machine/ieeefp.h" 1 3
@@ -795,7 +796,7 @@ extern long double _strtold_r (struct _reent *, const char *restrict, char **res
 extern long double strtold (const char *restrict, char **restrict);
 # 333 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdlib.h" 3
 
-# 2 "main.c" 2
+# 39 "main.c" 2
 # 1 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdio.h" 1 3
 # 36 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdio.h" 3
 # 1 "/Users/ziwei/Desktop/Software/devkitARM/lib/gcc/arm-none-eabi/7.1.0/include/stddef.h" 1 3 4
@@ -1188,7 +1189,7 @@ static __inline__ int __sputc_r(struct _reent *_ptr, int _c, FILE *_p) {
 }
 # 767 "/Users/ziwei/Desktop/Software/devkitARM/arm-none-eabi/include/stdio.h" 3
 
-# 3 "main.c" 2
+# 40 "main.c" 2
 # 1 "myLib.h" 1
 # 11 "myLib.h"
 
@@ -1198,7 +1199,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 # 71 "myLib.h"
 extern unsigned short *videoBuffer;
-# 92 "myLib.h"
+# 93 "myLib.h"
 typedef struct {
  u16 tileimg[8192];
 } charblock;
@@ -1242,12 +1243,12 @@ typedef struct {
 
 
 extern OBJ_ATTR shadowOAM[];
-# 165 "myLib.h"
+# 166 "myLib.h"
 void hideSprites();
-# 186 "myLib.h"
+# 187 "myLib.h"
 extern unsigned short oldButtons;
 extern unsigned short buttons;
-# 197 "myLib.h"
+# 198 "myLib.h"
 typedef volatile struct {
     volatile const void *src;
     volatile void *dst;
@@ -1256,7 +1257,7 @@ typedef volatile struct {
 
 
 extern DMA *dma;
-# 238 "myLib.h"
+# 239 "myLib.h"
 void DMANow(int channel, volatile const void *src, volatile void *dst, unsigned int cnt);
 
 
@@ -1265,7 +1266,7 @@ void DMANow(int channel, volatile const void *src, volatile void *dst, unsigned 
 int collision(int rowA, int colA, int heightA, int widthA, int rowB, int colB, int heightB, int widthB);
 int birdCollision(int rowA, int colA, int heightA, int widthA, int rowB, int colB, int heightB, int widthB);
 int myRandom(int size);
-# 330 "myLib.h"
+# 331 "myLib.h"
 typedef struct{
     const unsigned char* data;
     int length;
@@ -1276,7 +1277,7 @@ typedef struct{
     int priority;
     int vBlankCount;
 } SOUND;
-# 4 "main.c" 2
+# 41 "main.c" 2
 # 1 "text.h" 1
 
 void drawChar3(int row, int col, char ch, unsigned short color);
@@ -1285,48 +1286,42 @@ void drawString3(int row, int col, char *str, unsigned short color);
 
 void drawChar4(int row, int col, char ch, unsigned char colorIndex);
 void drawString4(int row, int col, char *str, unsigned char colorIndex);
-# 5 "main.c" 2
+# 42 "main.c" 2
 
 # 1 "start.h" 1
-# 22 "start.h"
-extern const unsigned short startTiles[7344];
-
-
-extern const unsigned short startMap[1024];
+# 21 "start.h"
+extern const unsigned short startBitmap[19200];
 
 
 extern const unsigned short startPal[256];
-# 7 "main.c" 2
+# 44 "main.c" 2
 # 1 "instruction.h" 1
 # 22 "instruction.h"
-extern const unsigned short instructionTiles[4048];
+extern const unsigned short instructionTiles[11936];
 
 
 extern const unsigned short instructionMap[1024];
 
 
 extern const unsigned short instructionPal[256];
-# 8 "main.c" 2
+# 45 "main.c" 2
 # 1 "pause.h" 1
 # 22 "pause.h"
-extern const unsigned short PauseTiles[1296];
+extern const unsigned short PauseTiles[5088];
 
 
 extern const unsigned short PauseMap[1024];
 
 
 extern const unsigned short PausePal[256];
-# 9 "main.c" 2
+# 46 "main.c" 2
 # 1 "lose.h" 1
-# 22 "lose.h"
-extern const unsigned short loseTiles[1232];
-
-
-extern const unsigned short loseMap[1024];
+# 21 "lose.h"
+extern const unsigned short loseBitmap[19200];
 
 
 extern const unsigned short losePal[256];
-# 10 "main.c" 2
+# 47 "main.c" 2
 # 1 "win.h" 1
 # 22 "win.h"
 extern const unsigned short winTiles[1360];
@@ -1336,7 +1331,7 @@ extern const unsigned short winMap[1024];
 
 
 extern const unsigned short winPal[256];
-# 11 "main.c" 2
+# 48 "main.c" 2
 # 1 "level1.h" 1
 # 1 "myLib.h" 1
 # 2 "level1.h" 2
@@ -1491,7 +1486,7 @@ void initGame3();
 void initLGBird();
 void drawLGBird();
 void updateLGBird();
-# 12 "main.c" 2
+# 49 "main.c" 2
 # 1 "gamebg.h" 1
 # 22 "gamebg.h"
 extern const unsigned short gamebgTiles[5216];
@@ -1501,7 +1496,7 @@ extern const unsigned short gamebgMap[1024];
 
 
 extern const unsigned short gamebgPal[256];
-# 13 "main.c" 2
+# 50 "main.c" 2
 # 1 "sky.h" 1
 # 22 "sky.h"
 extern const unsigned short skyTiles[11120];
@@ -1511,7 +1506,7 @@ extern const unsigned short skyMap[1024];
 
 
 extern const unsigned short skyPal[256];
-# 14 "main.c" 2
+# 51 "main.c" 2
 # 1 "sea.h" 1
 # 22 "sea.h"
 extern const unsigned short seaTiles[2656];
@@ -1521,7 +1516,7 @@ extern const unsigned short seaMap[1024];
 
 
 extern const unsigned short seaPal[256];
-# 15 "main.c" 2
+# 52 "main.c" 2
 # 1 "sound.h" 1
 SOUND soundA;
 SOUND soundB;
@@ -1536,19 +1531,19 @@ void interruptHandler();
 void pauseSound();
 void unpauseSound();
 void stopSound();
-# 16 "main.c" 2
+# 53 "main.c" 2
 # 1 "theme.h" 1
 # 20 "theme.h"
 extern const unsigned char theme[1197216];
-# 17 "main.c" 2
+# 54 "main.c" 2
 # 1 "gameSong.h" 1
 # 20 "gameSong.h"
 extern const unsigned char gameSong[226839];
-# 18 "main.c" 2
+# 55 "main.c" 2
 # 1 "pauseSong.h" 1
 # 20 "pauseSong.h"
 extern const unsigned char pauseSong[1581696];
-# 19 "main.c" 2
+# 56 "main.c" 2
 
 void initialize();
 
@@ -1579,7 +1574,8 @@ SOUND soundA;
 SOUND soundB;
 
 int seed;
-
+int vOff;
+int aniCounter;
 
 char buffer[41];
 
@@ -1623,7 +1619,8 @@ int main() {
 
 void initialize() {
 
-    (*(unsigned short *)0x4000000) = 0 | (1<<10);
+
+
 
 
     goToStart();
@@ -1631,13 +1628,20 @@ void initialize() {
 
 
 void goToStart() {
+    (*(unsigned short *)0x4000000) = 0;
+    (*(unsigned short *)0x4000000) ^= 0;
+    (*(unsigned short *)0x4000000) ^= (1<<10);
+    (*(unsigned short *)0x4000000) ^= (1<<12);
+    (*(unsigned short *)0x4000000) = 4 | (1<<10) | (1<<4);
 
-    (*(unsigned short *)0x4000000) = 0 | (1<<10);
-    (*(volatile unsigned short*)0x400000C) = (0<<14) | (0<<7) | ((0)<<2) | ((31)<<8);
+
+
+
+
     DMANow(3, startPal, ((unsigned short *)0x5000000), 256);
-    DMANow(3, startTiles, &((charblock *)0x6000000)[0], 14688 / 2);
-    DMANow(3, startMap, &((screenblock *)0x6000000)[31], 2048 / 2);
+    drawFullscreenImage4(startBitmap);
 
+    flipPage();
     waitForVBlank();
 
 
@@ -1668,6 +1672,7 @@ void start() {
 
 void insturction1() {
     seed++;
+
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
         stopSound();
 
@@ -1680,11 +1685,22 @@ void insturction1() {
     }
 }
 
+
 void goToInstruction1() {
-    (*(volatile unsigned short*)0x400000C) = (0<<14) | (0<<7) | ((0)<<2) | ((28)<<8);
-    DMANow(3, instructionPal, ((unsigned short *)0x5000000), 512/2);
-    DMANow(3, instructionTiles, &((charblock *)0x6000000)[0], 10432 / 2);
-    DMANow(3, instructionMap, &((screenblock *)0x6000000)[28], 2048 / 2);
+    (*(unsigned short *)0x4000000) ^= 4;
+    (*(unsigned short *)0x4000000) ^= (1<<10);
+    (*(unsigned short *)0x4000000) ^=(1<<4);
+    (*(unsigned short *)0x4000000) = 0 | (1<<10);
+    (*(volatile unsigned short*)0x400000C) = (0<<14) | (0<<7) | ((0)<<2) | ((31)<<8);
+
+    if (aniCounter % 3 == 0) {
+        vOff--;
+    }
+    (*(volatile unsigned short *)0x0400001A) = 4;
+    (*(volatile unsigned short *)0x04000018) = 4;
+    DMANow(3, instructionPal, ((unsigned short *)0x5000000), 256);
+    DMANow(3, instructionTiles, &((charblock *)0x6000000)[0], 23872 / 2);
+    DMANow(3, instructionMap, &((screenblock *)0x6000000)[31], 2048 / 2);
 
 
 
@@ -1708,7 +1724,6 @@ void goToGame() {
     DMANow(3, skyPal, ((unsigned short *)0x5000000), 512/2);
     (*(volatile unsigned short*)0x400000A) = (0<<14) | (0<<7) | ((0)<<2) | ((31)<<8);
 
-
     DMANow(3, skyTiles, &((charblock *)0x6000000)[0], 22240 / 2);
     DMANow(3, skyMap, &((screenblock *)0x6000000)[31],2048 / 2);
 
@@ -1725,7 +1740,7 @@ void goToGame() {
 void game() {
         updateGame1();
         drawGame1();
-# 212 "main.c"
+# 269 "main.c"
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
         stopSound();
         goToPause();
@@ -1735,12 +1750,13 @@ void game() {
     else if (livesNum == 0 && level == 2) {
         goToLose();
     } else if (livesNum == 0 && level == 3) {
-         goToLose();
+        goToLose();
     }
-    else if (lanternNum == 10 && level == 3) {
+    else if ((lanternNum >= 10 && level == 3) || (level == 3 && (!(~(oldButtons)&((1<<1))) && (~buttons & ((1<<1)))))) {
 
         goToWin();
     }
+
 }
 
 
@@ -1748,12 +1764,16 @@ void game() {
 
 
 void goToPause() {
+    (*(unsigned short *)0x4000000) ^= (1<<8);
+    (*(unsigned short *)0x4000000) ^= (1<<9);
+    (*(unsigned short *)0x4000000) |= (1<<10);
     playSoundA(pauseSong, 1581696, 11025, 1);
     (*(volatile unsigned short *)0x0400001A) = 0;
-    (*(volatile unsigned short*)0x400000C) = (3<<14)| (0<<7) | ((0)<<2) | ((31)<<8);
-    (*(unsigned short *)0x4000000) ^= (1<<8);
+    (*(volatile unsigned short *)0x04000018) = 0;
+    (*(volatile unsigned short*)0x400000C) = (0<<14)| (0<<7) | ((0)<<2) | ((31)<<8);
+
     DMANow(3, PausePal, ((unsigned short *)0x5000000), 256);
-    DMANow(3, PauseTiles, &((charblock *)0x6000000)[0], 2592 / 2);
+    DMANow(3, PauseTiles, &((charblock *)0x6000000)[0], 10176 / 2);
     DMANow(3, PauseMap, &((screenblock *)0x6000000)[31], 2048 / 2);
     hideSprites();
     DMANow(3, shadowOAM, ((OBJ_ATTR*)(0x7000000)), 128 * 4);
@@ -1780,9 +1800,25 @@ void pause() {
 
 
 void goToWin() {
+     (*(unsigned short *)0x4000000) ^= 0;
+    (*(unsigned short *)0x4000000) ^= (1<<10);
+    (*(unsigned short *)0x4000000) ^= (1<<12);
+    (*(unsigned short *)0x4000000) = 4 | (1<<10) | (1<<4);
 
 
 
+
+
+    DMANow(3, losePal, ((unsigned short *)0x5000000), 256);
+    drawFullscreenImage4(loseBitmap);
+
+
+
+
+
+
+    hideSprites();
+    DMANow(3, shadowOAM, ((OBJ_ATTR*)(0x7000000)), 128 * 4);
 
     waitForVBlank();
 
@@ -1795,28 +1831,35 @@ void goToWin() {
 void win() {
 
 
-    (*(volatile unsigned short *)0x0400001A) = 0;
-    (*(volatile unsigned short*)0x400000C) = (3<<14) | (0<<7) | ((0)<<2) | ((31)<<8);
-    DMANow(3, winPal, ((unsigned short *)0x5000000), 256);
-    DMANow(3, winTiles, &((charblock *)0x6000000)[0], 2720 / 2);
-    DMANow(3, winMap, &((screenblock *)0x6000000)[31], 2048 / 2);
-    hideSprites();
-    DMANow(3, shadowOAM, ((OBJ_ATTR*)(0x7000000)), 128 * 4);
-
-    waitForVBlank();
+   waitForVBlank();
 
 
-    if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3)))))
+    if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
+
         goToStart();
+    }
 }
 
 
 void goToLose() {
-    (*(volatile unsigned short *)0x0400001A) = 0;
-    (*(volatile unsigned short*)0x400000C) = (3<<14) | (0<<7) | ((0)<<2) | ((31)<<8);
+
+    (*(unsigned short *)0x4000000) ^= 0;
+    (*(unsigned short *)0x4000000) ^= (1<<10);
+    (*(unsigned short *)0x4000000) ^= (1<<12);
+    (*(unsigned short *)0x4000000) = 4 | (1<<10) | (1<<4);
+
+
+
+
+
     DMANow(3, losePal, ((unsigned short *)0x5000000), 256);
-    DMANow(3, loseTiles, &((charblock *)0x6000000)[0], 2464 / 2);
-    DMANow(3, loseMap, &((screenblock *)0x6000000)[31], 2048 / 2);
+    drawFullscreenImage4(loseBitmap);
+
+
+
+
+
+
     hideSprites();
     DMANow(3, shadowOAM, ((OBJ_ATTR*)(0x7000000)), 128 * 4);
 
