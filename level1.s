@@ -763,13 +763,13 @@ initLanterns:
 	mov	r8, #1
 	mov	r7, #16
 	ldr	r4, .L142
-	ldr	r5, .L142+4
-	ldr	r6, .L142+8
+	ldr	r6, .L142+4
+	ldr	r5, .L142+8
 	add	r9, r4, #520
 .L139:
 	mov	lr, pc
-	bx	r5
-	smull	r10, fp, r0, r6
+	bx	r6
+	smull	r10, fp, r0, r5
 	asr	r2, r0, #31
 	rsb	r3, r2, fp, asr #4
 	add	r3, r3, r3, lsl #2
@@ -777,33 +777,29 @@ initLanterns:
 	add	r0, r0, #30
 	str	r0, [r4]
 	mov	lr, pc
-	bx	r5
-	smull	r10, fp, r0, r6
+	bx	r6
+	mov	r1, #0
+	smull	r10, fp, r0, r5
 	asr	r2, r0, #31
 	rsb	r3, r2, fp, asr #6
 	add	r3, r3, r3, lsl #2
 	sub	r0, r0, r3, lsl #5
 	add	r0, r0, #30
-	str	r0, [r4, #4]
-	mov	lr, pc
-	bx	r5
-	mov	lr, pc
-	bx	r5
-	mov	r3, #0
 	str	r8, [r4, #8]
-	str	r3, [r4, #24]
-	str	r3, [r4, #28]
-	str	r3, [r4, #48]
-	str	r3, [r4, #32]
-	str	r3, [r4, #36]
-	str	r3, [r4, #40]
-	str	r3, [r4, #44]
 	str	r8, [r4, #12]
 	str	r7, [r4, #16]
 	str	r7, [r4, #20]
+	str	r0, [r4, #4]
+	str	r1, [r4, #24]
+	str	r1, [r4, #28]
+	str	r1, [r4, #48]
+	str	r1, [r4, #32]
+	str	r1, [r4, #36]
+	str	r1, [r4, #40]
+	str	r1, [r4, #44]
 	mov	lr, pc
-	bx	r5
-	smull	r10, fp, r0, r6
+	bx	r6
+	smull	r10, fp, r0, r5
 	asr	r3, r0, #31
 	rsb	r3, r3, fp, asr #2
 	add	r3, r3, r3, lsl #2
@@ -863,9 +859,9 @@ initGame1:
 	strh	r2, [r3]	@ movhi
 	strh	r8, [r3, #12]	@ movhi
 	ldr	r3, .L146+24
+	stmib	r3, {r7, lr}
 	str	r0, [r3]
 	str	r0, [r3, #44]
-	stmib	r3, {r7, lr}
 	str	ip, [r3, #40]
 	str	r4, [r3, #12]
 	str	r4, [r3, #32]
@@ -881,7 +877,7 @@ initGame1:
 	mov	r2, #4
 	ldr	r3, .L146+28
 	ldr	ip, .L146+32
-	ldrh	ip, [ip, #48]
+	ldrh	lr, [ip, #48]
 	str	r0, [r3, #4]
 	ldr	r0, .L146+36
 	str	r6, [r3]
@@ -889,17 +885,19 @@ initGame1:
 	str	r4, [r3, #24]
 	str	r4, [r3, #28]
 	str	r1, [r3, #16]
-	ldr	r0, .L146+40
+	ldr	ip, .L146+40
 	str	r1, [r3, #20]
-	ldr	r1, .L146+44
-	ldr	r3, .L146+48
-	strh	ip, [r0]	@ movhi
+	ldr	r0, .L146+44
+	ldr	r1, .L146+48
+	ldr	r3, .L146+52
+	strh	lr, [ip]	@ movhi
+	str	r4, [r0]
 	str	r4, [r1]
 	str	r5, [r3]
-	ldr	ip, .L146+52
-	ldr	r0, .L146+56
-	ldr	r1, .L146+60
-	ldr	r3, .L146+64
+	ldr	ip, .L146+56
+	ldr	r0, .L146+60
+	ldr	r1, .L146+64
+	ldr	r3, .L146+68
 	str	r4, [ip]
 	str	r4, [r0]
 	str	r2, [r1]
@@ -921,6 +919,7 @@ initGame1:
 	.word	aniCounter
 	.word	buttons
 	.word	lanternNum
+	.word	hidecountlevel1
 	.word	level
 	.word	vOff
 	.word	hOff
@@ -1592,19 +1591,21 @@ initGame2:
 	str	r5, [r0]
 	ldr	r0, .L257+12
 	strh	ip, [r0]	@ movhi
-	ldr	ip, .L257+16
-	ldr	r0, .L257+20
-	ldr	r3, .L257+24
+	ldr	r0, .L257+16
+	ldr	ip, .L257+20
+	str	r4, [r0]
+	ldr	r0, .L257+24
+	ldr	r3, .L257+28
 	str	r4, [ip]
 	str	r4, [r0]
-	ldr	ip, .L257+28
-	ldr	r0, .L257+32
+	ldr	ip, .L257+32
+	ldr	r0, .L257+36
 	str	r4, [ip]
 	str	r4, [r0]
 	str	lr, [r3, #4]
-	ldr	ip, .L257+36
-	ldr	lr, .L257+40
-	ldr	r0, .L257+44
+	ldr	ip, .L257+40
+	ldr	lr, .L257+44
+	ldr	r0, .L257+48
 	str	r6, [r3]
 	str	r4, [r3, #24]
 	str	r4, [r3, #28]
@@ -1624,6 +1625,7 @@ initGame2:
 	.word	buttons
 	.word	aniCounter
 	.word	lanternNum
+	.word	hidecountlevel2
 	.word	live
 	.word	vOff
 	.word	hOff
@@ -2033,13 +2035,15 @@ initGame3:
 	ldr	r3, .L314+28
 	str	r4, [ip]
 	str	r4, [r3]
-	ldr	ip, .L314+32
-	ldr	r3, .L314+36
+	ldr	lr, .L314+32
+	ldr	ip, .L314+36
+	ldr	r3, .L314+40
+	str	r4, [lr]
 	str	r4, [ip]
-	ldr	lr, .L314+40
+	ldr	lr, .L314+44
 	str	r2, [r3]
-	ldr	ip, .L314+44
-	ldr	r3, .L314+48
+	ldr	ip, .L314+48
+	ldr	r3, .L314+52
 	str	r1, [lr]
 	str	r1, [ip]
 	str	r0, [r3]
@@ -2054,8 +2058,9 @@ initGame3:
 	.word	buttons
 	.word	live
 	.word	aniCounter
-	.word	lanternNum
+	.word	hidecountlevel3
 	.word	vOff
+	.word	lanternNum
 	.word	hOff
 	.word	livesNum
 	.word	birdsNum
@@ -2469,59 +2474,109 @@ updateGame1:
 	@ Function supports interworking.
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	ldr	r2, .L395
+	ldr	r2, .L418
 	ldr	r3, [r2]
 	push	{r4, r5, r6, lr}
-	ldr	r4, .L395+4
+	ldr	r4, .L418+4
 	add	r3, r3, #1
 	str	r3, [r2]
 	bl	updatePlayer
 	bl	updateSmlbirds
 	ldr	r3, [r4]
 	cmp	r3, #1
-	bgt	.L392
+	bgt	.L412
 .L368:
 	bl	updateLanterns
 	ldr	r3, [r4]
 	cmp	r3, #1
-	ldr	r3, .L395+8
+	ldr	r3, .L418+8
 	ldr	r3, [r3]
-	ldr	r2, .L395+12
+	ldr	r2, .L418+12
 	rsbeq	r3, r3, #4
 	rsbne	r3, r3, #8
 	str	r3, [r2, #28]
-	ldr	r3, .L395+16
+	ldr	r3, .L418+16
 	mov	lr, pc
 	bx	r3
-	ldr	r5, .L395+20
+	ldr	r5, .L418+20
 	mov	r3, #512
 	mov	r2, #117440512
-	ldr	r1, .L395+24
+	ldr	r1, .L418+24
 	mov	r0, #3
 	mov	lr, pc
 	bx	r5
-	ldr	r3, .L395+28
+	ldr	r3, .L418+28
 	ldr	r3, [r3]
 	cmp	r3, #9
-	bgt	.L371
-	ldr	r3, .L395+32
+	ble	.L371
+	ldr	r3, [r4]
+	cmp	r3, #1
+	beq	.L413
+	cmp	r3, #2
+	beq	.L414
+.L371:
+	ldr	r3, .L418+32
 	ldrh	r3, [r3]
-	tst	r3, #2
-	bne	.L393
-.L372:
 	tst	r3, #4
 	beq	.L374
-	ldr	r3, .L395+36
+	ldr	r3, .L418+36
 	ldrh	r3, [r3]
-	tst	r3, #4
+	ands	r3, r3, #4
 	bne	.L374
-	ldr	r3, [r4]
-	cmp	r3, #2
-	beq	.L394
+	ldr	r2, [r4]
+	cmp	r2, #1
+	beq	.L415
+	cmp	r2, #2
+	beq	.L393
+	cmp	r2, #3
+	bne	.L374
+	ldr	lr, .L418+40
+	ldr	ip, [lr]
+	cmp	ip, #9
+	bgt	.L374
+	ldr	r0, .L418+44
+	mov	r1, r0
+.L386:
+	ldr	r2, [r1, #44]
+	cmp	r2, #0
+	bne	.L411
+	add	r3, r3, #1
+	cmp	r3, #4
+	add	r1, r1, #56
+	bne	.L386
+	ldr	r1, .L418+48
+	mov	r3, r1
+.L388:
+	ldr	r0, [r3, #44]
+	cmp	r0, #0
+	bne	.L416
+	add	r2, r2, #1
+	cmp	r2, #4
+	add	r3, r3, #56
+	bne	.L388
+	ldr	r3, .L418+52
+	ldr	r2, [r3, #44]
+	cmp	r2, #0
+	bne	.L390
+	ldr	r2, [r3, #100]
+	cmp	r2, #0
+	beq	.L374
+	mov	r0, #1
+.L390:
+	mov	r1, #0
+	ldr	r2, .L418+56
+	rsb	r0, r0, r0, lsl #3
+	add	r0, r3, r0, lsl #3
+	ldr	r3, [r2]
+	add	ip, ip, #1
+	sub	r3, r3, #1
+	str	ip, [lr]
+	str	r1, [r0, #44]
+	str	r3, [r2]
 .L374:
 	mov	r2, #67108864
-	ldr	r3, .L395+40
-	ldr	r1, .L395+44
+	ldr	r3, .L418+60
+	ldr	r1, .L418+64
 	ldrh	r3, [r3]
 	strh	r3, [r2, #26]	@ movhi
 	strh	r3, [r2, #22]	@ movhi
@@ -2534,41 +2589,124 @@ updateGame1:
 	strh	r3, [r2, #16]	@ movhi
 	pop	{r4, r5, r6, lr}
 	bx	lr
-.L371:
-	ldr	r3, [r4]
-	cmp	r3, #1
-	beq	.L375
-	cmp	r3, #2
-	bne	.L374
-	b	.L394
-.L393:
-	ldr	r2, .L395+36
-	ldrh	r2, [r2]
-	tst	r2, #2
-	bne	.L372
-	ldr	r2, [r4]
-	cmp	r2, #1
-	bne	.L372
-.L375:
-	mov	r3, #2
-	str	r3, [r4]
-	bl	initGame2
-	b	.L374
-.L392:
+.L412:
 	bl	updateBird2
 	ldr	r3, [r4]
 	cmp	r3, #3
 	bne	.L368
 	bl	updateLGBird
 	b	.L368
-.L394:
+.L413:
+	mov	r3, #2
+	str	r3, [r4]
+	bl	initGame2
+	b	.L371
+.L414:
 	mov	r3, #3
 	str	r3, [r4]
 	bl	initGame3
+	b	.L371
+.L415:
+	ldr	lr, .L418+68
+	ldr	ip, [lr]
+	cmp	ip, #3
+	bgt	.L374
+	ldr	r0, .L418+44
+	mov	r2, r0
+.L379:
+	ldr	r1, [r2, #44]
+	cmp	r1, #0
+	bne	.L411
+	add	r3, r3, #1
+	cmp	r3, #4
+	add	r2, r2, #56
+	bne	.L379
 	b	.L374
-.L396:
-	.align	2
+.L393:
+	ldr	r4, .L418+72
+	ldr	ip, [r4]
+	cmp	ip, #7
+	bgt	.L374
+	ldr	r0, .L418+44
+	mov	r1, r0
+.L382:
+	ldr	lr, [r1, #44]
+	cmp	lr, #0
+	bne	.L417
+	add	r3, r3, #1
+	cmp	r3, #4
+	add	r1, r1, #56
+	bne	.L382
+	ldr	r1, .L418+48
+	ldr	r3, [r1, #44]
+	cmp	r3, #0
+	bne	.L383
+	ldr	r3, [r1, #100]
+	cmp	r3, #0
+	bne	.L395
+	ldr	r3, [r1, #156]
+	cmp	r3, #0
+	bne	.L384
+	ldr	r3, [r1, #212]
+	cmp	r3, #0
+	movne	r2, #3
+	beq	.L374
+.L384:
+	mov	lr, r2
+.L383:
+	mov	r5, #0
+	ldr	r0, .L418+76
+	ldr	r2, [r0]
+	rsb	lr, lr, lr, lsl #3
+	add	r3, r1, lr, lsl #3
+	add	ip, ip, #1
+	sub	r2, r2, #1
+	str	ip, [r4]
+	str	r5, [r3, #44]
+	str	r2, [r0]
+	b	.L374
+.L417:
+	mov	lr, #0
+	ldr	r1, .L418+80
+	ldr	r2, [r1]
+	rsb	r3, r3, r3, lsl #3
+	add	r3, r0, r3, lsl #3
+	add	ip, ip, #1
+	sub	r2, r2, #1
+	str	ip, [r4]
+	str	lr, [r3, #44]
+	str	r2, [r1]
+	b	.L374
+.L411:
+	mov	r4, #0
+	ldr	r1, .L418+80
+	ldr	r2, [r1]
+	rsb	r3, r3, r3, lsl #3
+	add	r3, r0, r3, lsl #3
+	add	ip, ip, #1
+	sub	r2, r2, #1
+	str	ip, [lr]
+	str	r4, [r3, #44]
+	str	r2, [r1]
+	b	.L374
+.L416:
+	mov	r4, #0
+	ldr	r0, .L418+76
+	ldr	r3, [r0]
+	rsb	r2, r2, r2, lsl #3
+	add	r2, r1, r2, lsl #3
+	add	ip, ip, #1
+	sub	r3, r3, #1
+	str	ip, [lr]
+	str	r4, [r2, #44]
+	str	r3, [r0]
+	b	.L374
 .L395:
+	mov	r2, #1
+	b	.L384
+.L419:
+	.align	2
+.L418:
 	.word	aniCounter
 	.word	level
 	.word	livesNum
@@ -2579,10 +2717,22 @@ updateGame1:
 	.word	lanternNum
 	.word	oldButtons
 	.word	buttons
+	.word	hidecountlevel3
+	.word	smlbird1
+	.word	smlbird2
+	.word	lgbird
+	.word	lgbirdsNum
 	.word	vOff
 	.word	hOff
+	.word	hidecountlevel1
+	.word	hidecountlevel2
+	.word	birds2Num
+	.word	birdsNum
 	.size	updateGame1, .-updateGame1
 	.comm	shadowOAM,1024,4
+	.comm	hidecountlevel3,4,4
+	.comm	hidecountlevel2,4,4
+	.comm	hidecountlevel1,4,4
 	.comm	level,4,4
 	.comm	lanternNum,4,4
 	.comm	lgbirdsNum,4,4

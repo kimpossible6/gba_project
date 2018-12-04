@@ -53,6 +53,8 @@ This will be removed after cheat has been completed.
 #include "theme.h"
 #include "gameSong.h"
 #include "pauseSong.h"
+#include "winSong.h"
+#include "loseSong.h"
 // Prototypes
 void initialize();
 
@@ -137,10 +139,7 @@ void initialize() {
 
 // Sets up the start state
 void goToStart() {
-    REG_DISPCTL = 0;
-    REG_DISPCTL ^= MODE0;
-    REG_DISPCTL ^= BG2_ENABLE;
-    REG_DISPCTL ^= SPRITE_ENABLE;
+    // REG_DISPCTL = 0;
     REG_DISPCTL = MODE4 | BG2_ENABLE | DISP_BACKBUFFER;
     // REG_BG2CNT = BG_SIZE_SMALL | BG_4BPP | BG_CHARBLOCK(0) | BG_SCREENBLOCK(31);
     // DMANow(3, startPal, PALETTE, 256); 
@@ -166,8 +165,8 @@ void goToStart() {
 void start() {
 
     // Lock the framerate to 60 fps
-    waitForVBlank();
-
+    // waitForVBlank();
+    // flipPage();
     // State transitions
     if (BUTTON_PRESSED(BUTTON_START)) {
 
@@ -277,7 +276,7 @@ void game() {
     } else if (livesNum == 0 && level == 3) {
         goToLose();
     }
-    else if ((lanternNum >= 10 && level == 3) || (level == 3 && BUTTON_PRESSED(BUTTON_B))) {
+    else if ((lanternNum >= 10 && level == 3)) {
         // goToInstruction2();
         goToWin();
     }
@@ -319,23 +318,25 @@ void pause() {
     // State transitions
     if (BUTTON_PRESSED(BUTTON_START))
         goToGame();
-    else if (BUTTON_PRESSED(BUTTON_SELECT))
+    else if (BUTTON_PRESSED(BUTTON_SELECT)){
+
+        waitForVBlank();
+        flipPage();
         goToStart();
+    }
 }
 
 // Sets up the win state
 void goToWin() {
-    REG_DISPCTL ^= MODE0;
-    REG_DISPCTL ^= BG2_ENABLE;
-    REG_DISPCTL ^= SPRITE_ENABLE;
+    playSoundA(winSong, WINSONGLEN, WINSONGFREQ, 1);
     REG_DISPCTL = MODE4 | BG2_ENABLE | DISP_BACKBUFFER;
     // REG_BG2CNT = BG_SIZE_SMALL | BG_4BPP | BG_CHARBLOCK(0) | BG_SCREENBLOCK(31);
     // DMANow(3, startPal, PALETTE, 256); 
     // DMANow(3, startTiles, &CHARBLOCK[0], startTilesLen / 2);
     // DMANow(3, startMap, &SCREENBLOCK[31], startMapLen / 2);
     // loadPalette(startPal);
-    DMANow(3, losePal, PALETTE, 256);
-    drawFullscreenImage4(loseBitmap);
+    DMANow(3, winPal, PALETTE, 256);
+    drawFullscreenImage4(winBitmap);
     // REG_BG2VOFF = 0;
     // REG_BG2CNT = BG_SIZE_LARGE | BG_4BPP | BG_CHARBLOCK(0) | BG_SCREENBLOCK(31);
     // REG_DISPCTL ^= BG0_ENABLE;
@@ -345,7 +346,7 @@ void goToWin() {
     hideSprites();
     DMANow(3, shadowOAM, OAM, 128 * 4);
 
-    waitForVBlank();
+    // waitForVBlank();
     // flipPage();
 
    
@@ -357,20 +358,16 @@ void win() {
     
     // Lock the framerate to 60 fps
    waitForVBlank();
-
+   flipPage();
     // State transitions
     if (BUTTON_PRESSED(BUTTON_START)) {
-
         goToStart();
     }
 }
 
 // Sets up the lose state
 void goToLose() {
-
-    REG_DISPCTL ^= MODE0;
-    REG_DISPCTL ^= BG2_ENABLE;
-    REG_DISPCTL ^= SPRITE_ENABLE;
+    playSoundA(loseSong, LOSESONGLEN, LOSESONGFREQ, 1);
     REG_DISPCTL = MODE4 | BG2_ENABLE | DISP_BACKBUFFER;
     // REG_BG2CNT = BG_SIZE_SMALL | BG_4BPP | BG_CHARBLOCK(0) | BG_SCREENBLOCK(31);
     // DMANow(3, startPal, PALETTE, 256); 
@@ -390,7 +387,7 @@ void goToLose() {
     // DMANow(3, losePal, PALETTE, 256);
     // drawFullscreenImage4(loseBitmap);
 
-    waitForVBlank();
+    // waitForVBlank();
     // flipPage();
 
     state = LOSE;
@@ -401,7 +398,7 @@ void lose() {
      
     // Lock the framerate to 60 fps
     waitForVBlank();
-
+    flipPage();
     // State transitions
     if (BUTTON_PRESSED(BUTTON_START)) 
         goToStart();

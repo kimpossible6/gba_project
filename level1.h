@@ -103,6 +103,9 @@ extern int birds2Num;
 extern int lgbirdsNum;
 extern int lanternNum;
 extern int level;
+// extern volatile int hidecountlevel1;
+// extern volatile int hidecountlevel2;
+// extern volatile int hidecountlevel3; 
 
 
 //LEVEL1

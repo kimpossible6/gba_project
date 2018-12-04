@@ -1301,7 +1301,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 # 71 "myLib.h"
 extern unsigned short *videoBuffer;
-# 92 "myLib.h"
+# 93 "myLib.h"
 typedef struct {
  u16 tileimg[8192];
 } charblock;
@@ -1345,12 +1345,12 @@ typedef struct {
 
 
 extern OBJ_ATTR shadowOAM[];
-# 165 "myLib.h"
+# 166 "myLib.h"
 void hideSprites();
-# 186 "myLib.h"
+# 187 "myLib.h"
 extern unsigned short oldButtons;
 extern unsigned short buttons;
-# 197 "myLib.h"
+# 198 "myLib.h"
 typedef volatile struct {
     volatile const void *src;
     volatile void *dst;
@@ -1359,7 +1359,7 @@ typedef volatile struct {
 
 
 extern DMA *dma;
-# 238 "myLib.h"
+# 239 "myLib.h"
 void DMANow(int channel, volatile const void *src, volatile void *dst, unsigned int cnt);
 
 
@@ -1368,7 +1368,7 @@ void DMANow(int channel, volatile const void *src, volatile void *dst, unsigned 
 int collision(int rowA, int colA, int heightA, int widthA, int rowB, int colB, int heightB, int widthB);
 int birdCollision(int rowA, int colA, int heightA, int widthA, int rowB, int colB, int heightB, int widthB);
 int myRandom(int size);
-# 330 "myLib.h"
+# 331 "myLib.h"
 typedef struct{
     const unsigned char* data;
     int length;
@@ -1487,6 +1487,9 @@ extern int level;
 
 
 
+
+
+
 void initGame1();
 void updateGame1();
 void drawGame1();
@@ -1602,6 +1605,11 @@ int birds2Num;
 int lgbirdsNum;
 int lanternNum;
 int level;
+
+int hidecountlevel1;
+int hidecountlevel2;
+int hidecountlevel3;
+
 OBJ_ATTR shadowOAM[128];
 enum { PLAYUP, PLAYDOWN, PLAYHIT, PLAYRIGHT, PLAYLEFT, PLAYIDLE};
 
@@ -1629,6 +1637,9 @@ void initGame1() {
  livesNum = 4;
  birdsNum = 4;
  lanternNum = 0;
+
+ hidecountlevel1 = 0;
+
 
  level = 1;
  vOff = 0;
@@ -1659,12 +1670,104 @@ void updateGame1() {
 
 
 
- if ((lanternNum >= 10 && level == 1) || ((!(~(oldButtons)&((1<<1))) && (~buttons & ((1<<1)))) && level == 1) ) {
+ if (lanternNum >= 10 && level == 1) {
   level = 2;
   initGame2();
- } else if ((lanternNum >= 10 && level == 2) || ((!(~(oldButtons)&((1<<2))) && (~buttons & ((1<<2)))) && level == 2)) {
+ } else if (lanternNum >= 10 && level == 2) {
   level = 3;
   initGame3();
+ }
+
+
+ if ((!(~(oldButtons)&((1<<2))) && (~buttons & ((1<<2)))) && level == 1) {
+  if (hidecountlevel1 <= 3) {
+   int i = 0;
+   while (i <= 3) {
+    if (smlbird1[i].active) {
+     smlbird1[i].active = 0;
+     birdsNum--;
+     hidecountlevel1++;
+     break;
+    }
+    i++;
+
+   }
+  }
+
+ }
+
+ if ((!(~(oldButtons)&((1<<2))) && (~buttons & ((1<<2)))) && level == 2) {
+  if (hidecountlevel2 <= 7) {
+   int i = 0;
+   int j = 0;
+   while (i <= 3) {
+    if (smlbird1[i].active) {
+     smlbird1[i].active = 0;
+     hidecountlevel2++;
+     birdsNum--;
+     break;
+    }
+    i++;
+
+   }
+   if (i > 3) {
+    while (j <= 3) {
+    if (smlbird2[j].active) {
+     smlbird2[j].active = 0;
+     hidecountlevel2++;
+     birds2Num--;
+     break;
+    }
+    j++;
+
+    }
+   }
+
+  }
+
+ }
+
+ if ((!(~(oldButtons)&((1<<2))) && (~buttons & ((1<<2)))) && level == 3) {
+  if (hidecountlevel3 <= 9) {
+   int i = 0;
+   int j = 0;
+   int k = 0;
+   while (i <= 3) {
+    if (smlbird1[i].active) {
+     smlbird1[i].active = 0;
+     hidecountlevel3++;
+     birdsNum--;
+     break;
+    }
+    i++;
+
+   }
+   if (i > 3) {
+    while (j <= 3) {
+    if (smlbird2[j].active) {
+     smlbird2[j].active = 0;
+     hidecountlevel3++;
+     birds2Num--;
+     break;
+    }
+    j++;
+
+    }
+   }
+   if (i > 3 && j > 3) {
+    while (k <= 1) {
+     if (lgbird[k].active) {
+      lgbird[k].active = 0;
+      hidecountlevel3++;
+      lgbirdsNum--;
+      break;
+     }
+     k++;
+    }
+   }
+
+  }
+
  }
 
 
@@ -1696,6 +1799,9 @@ void initGame2() {
  birds2Num = 4;
  lanternNum = 0;
 
+ hidecountlevel2 = 0;
+
+
  level = 2;
  vOff = 0;
  hOff = 0;
@@ -1716,6 +1822,9 @@ void initGame3() {
  birds2Num = 4;
  lgbirdsNum = 2;
  lanternNum = 0;
+
+
+ hidecountlevel3 = 0;
 
  level = 3;
  vOff = 0;
@@ -2015,7 +2124,7 @@ void updateSmlbirds() {
   for (int j = 0; j < 4; j++) {
    smlbird1[j].col -= smlbird1[j].cdel;
   }
-# 459 "level1.c"
+# 565 "level1.c"
 }
 
 void drawHitSmlbirds(SMLBIRDS *s, int j) {
@@ -2066,8 +2175,6 @@ void initLanterns() {
  for (int j = 0; j < 10; j++) {
   lanterns[j].row = rand()%40 + 30;
   lanterns[j].col = rand()%160 + 30;
-  int randomrdel = rand()%2;
-  int randomcdel = rand()%2;
      lanterns[j].rdel = 1;
      lanterns[j].cdel = 1;
   lanterns[j].width = 16;
@@ -2114,7 +2221,7 @@ void updateLanterns() {
   } else if (lanterns[j].col + lanterns[j].width > 200) {
    lanterns[j].col = 200 - lanterns[j].width;
   }
-# 568 "level1.c"
+# 672 "level1.c"
  }
 
 

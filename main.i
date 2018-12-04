@@ -1323,11 +1323,8 @@ extern const unsigned short loseBitmap[19200];
 extern const unsigned short losePal[256];
 # 47 "main.c" 2
 # 1 "win.h" 1
-# 22 "win.h"
-extern const unsigned short winTiles[1360];
-
-
-extern const unsigned short winMap[1024];
+# 21 "win.h"
+extern const unsigned short winBitmap[19200];
 
 
 extern const unsigned short winPal[256];
@@ -1439,6 +1436,9 @@ extern int birds2Num;
 extern int lgbirdsNum;
 extern int lanternNum;
 extern int level;
+volatile extern int hidecountlevel1;
+volatile extern int hidecountlevel2;
+volatile extern int hidecountlevel3;
 
 
 
@@ -1544,6 +1544,14 @@ extern const unsigned char gameSong[226839];
 # 20 "pauseSong.h"
 extern const unsigned char pauseSong[1581696];
 # 56 "main.c" 2
+# 1 "winSong.h" 1
+# 20 "winSong.h"
+extern const unsigned char winSong[1685664];
+# 57 "main.c" 2
+# 1 "loseSong.h" 1
+# 20 "loseSong.h"
+extern const unsigned char loseSong[3308256];
+# 58 "main.c" 2
 
 void initialize();
 
@@ -1628,10 +1636,7 @@ void initialize() {
 
 
 void goToStart() {
-    (*(unsigned short *)0x4000000) = 0;
-    (*(unsigned short *)0x4000000) ^= 0;
-    (*(unsigned short *)0x4000000) ^= (1<<10);
-    (*(unsigned short *)0x4000000) ^= (1<<12);
+
     (*(unsigned short *)0x4000000) = 4 | (1<<10) | (1<<4);
 
 
@@ -1657,7 +1662,7 @@ void goToStart() {
 void start() {
 
 
-    waitForVBlank();
+
 
 
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
@@ -1740,7 +1745,7 @@ void goToGame() {
 void game() {
         updateGame1();
         drawGame1();
-# 269 "main.c"
+# 268 "main.c"
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
         stopSound();
         goToPause();
@@ -1752,7 +1757,7 @@ void game() {
     } else if (livesNum == 0 && level == 3) {
         goToLose();
     }
-    else if ((lanternNum >= 10 && level == 3) || (level == 3 && (!(~(oldButtons)&((1<<1))) && (~buttons & ((1<<1)))))) {
+    else if ((lanternNum >= 10 && level == 3)) {
 
         goToWin();
     }
@@ -1794,23 +1799,25 @@ void pause() {
 
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3)))))
         goToGame();
-    else if ((!(~(oldButtons)&((1<<2))) && (~buttons & ((1<<2)))))
+    else if ((!(~(oldButtons)&((1<<2))) && (~buttons & ((1<<2))))){
+
+        waitForVBlank();
+        flipPage();
         goToStart();
+    }
 }
 
 
 void goToWin() {
-     (*(unsigned short *)0x4000000) ^= 0;
-    (*(unsigned short *)0x4000000) ^= (1<<10);
-    (*(unsigned short *)0x4000000) ^= (1<<12);
+    playSoundA(winSong, 1685664, 11025, 1);
     (*(unsigned short *)0x4000000) = 4 | (1<<10) | (1<<4);
 
 
 
 
 
-    DMANow(3, losePal, ((unsigned short *)0x5000000), 256);
-    drawFullscreenImage4(loseBitmap);
+    DMANow(3, winPal, ((unsigned short *)0x5000000), 256);
+    drawFullscreenImage4(winBitmap);
 
 
 
@@ -1820,7 +1827,7 @@ void goToWin() {
     hideSprites();
     DMANow(3, shadowOAM, ((OBJ_ATTR*)(0x7000000)), 128 * 4);
 
-    waitForVBlank();
+
 
 
 
@@ -1832,20 +1839,16 @@ void win() {
 
 
    waitForVBlank();
-
+   flipPage();
 
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
-
         goToStart();
     }
 }
 
 
 void goToLose() {
-
-    (*(unsigned short *)0x4000000) ^= 0;
-    (*(unsigned short *)0x4000000) ^= (1<<10);
-    (*(unsigned short *)0x4000000) ^= (1<<12);
+    playSoundA(loseSong, 3308256, 11025, 1);
     (*(unsigned short *)0x4000000) = 4 | (1<<10) | (1<<4);
 
 
@@ -1865,7 +1868,7 @@ void goToLose() {
 
 
 
-    waitForVBlank();
+
 
 
     state = LOSE;
@@ -1876,7 +1879,7 @@ void lose() {
 
 
     waitForVBlank();
-
+    flipPage();
 
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3)))))
         goToStart();

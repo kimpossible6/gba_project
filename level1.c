@@ -35,6 +35,11 @@ int birds2Num;
 int lgbirdsNum;
 int lanternNum;
 int level;
+
+int hidecountlevel1;
+int hidecountlevel2;
+int hidecountlevel3; 
+
 OBJ_ATTR shadowOAM[128];
 enum { PLAYUP, PLAYDOWN, PLAYHIT, PLAYRIGHT, PLAYLEFT, PLAYIDLE};
 
@@ -63,6 +68,9 @@ void initGame1() {
 	birdsNum = 4;
 	lanternNum = 0;
 	//for level of the game
+	hidecountlevel1 = 0;
+	// int hidecountlevel2 = 0;
+	// int hidecountlevel3 = 0;
 	level = 1;
 	vOff = 0;
 	hOff = 0;
@@ -92,12 +100,104 @@ void updateGame1() {
 	// } 
 
 	// 
-	if ((lanternNum >= 10 && level == 1) || (BUTTON_PRESSED(BUTTON_B) && level == 1) ) {
+	if (lanternNum >= 10 && level == 1) {
 		level = 2;
 		initGame2();
-	} else if ((lanternNum >= 10 && level == 2) || (BUTTON_PRESSED(BUTTON_SELECT) && level == 2)) {
+	} else if (lanternNum >= 10 && level == 2) {
 		level = 3; 
 		initGame3();
+	}
+
+	
+	if (BUTTON_PRESSED(BUTTON_SELECT) && level == 1) {
+		if (hidecountlevel1 <= 3) {
+			int i = 0;
+			while (i <= 3) {
+				if (smlbird1[i].active) {
+					smlbird1[i].active = 0;
+					birdsNum--;
+					hidecountlevel1++;
+					break;
+				}
+				i++;
+			
+			} 
+		}
+		
+	}
+
+	if (BUTTON_PRESSED(BUTTON_SELECT) && level == 2) {
+		if (hidecountlevel2 <= 7) {
+			int i = 0;
+			int j = 0;
+			while (i <= 3) {
+				if (smlbird1[i].active) {
+					smlbird1[i].active = 0;
+					hidecountlevel2++;
+					birdsNum--;
+					break;
+				}
+				i++;
+				
+			}
+			if (i > 3) {
+				while (j <= 3) {
+				if (smlbird2[j].active) {
+					smlbird2[j].active = 0;
+					hidecountlevel2++; 
+					birds2Num--;
+					break;
+				}
+				j++;
+				
+				}
+			}
+			
+		}
+		
+	}
+
+	if (BUTTON_PRESSED(BUTTON_SELECT) && level == 3) {
+		if (hidecountlevel3 <= 9) {
+			int i = 0;
+			int j = 0;
+			int k = 0;
+			while (i <= 3) {
+				if (smlbird1[i].active) {
+					smlbird1[i].active = 0;
+					hidecountlevel3++;
+					birdsNum--;
+					break;
+				}
+				i++;
+				
+			}
+			if (i > 3) {
+				while (j <= 3) {
+				if (smlbird2[j].active) {
+					smlbird2[j].active = 0;
+					hidecountlevel3++; 
+					birds2Num--;
+					break;
+				}
+				j++;
+				
+				}
+			}
+			if (i > 3 && j > 3) {
+				while (k <= 1) {
+					if (lgbird[k].active) {
+						lgbird[k].active = 0;
+						hidecountlevel3++;
+						lgbirdsNum--;
+						break;
+					}
+					k++;
+				}
+			}
+			
+		}
+		
 	}
 
 
@@ -128,6 +228,9 @@ void initGame2() {
 	birdsNum = 4;
 	birds2Num = 4;
 	lanternNum = 0;
+	// int hidecountlevel1 = 0;
+	hidecountlevel2 = 0;
+	// int hidecountlevel3 = 0;
 	//for level of the game
 	level = 2;
 	vOff = 0;
@@ -149,6 +252,9 @@ void initGame3() {
 	birds2Num = 4;
 	lgbirdsNum = 2;
 	lanternNum = 0;
+	// int hidecountlevel1 = 0;
+	// int hidecountlevel2 = 0;
+	hidecountlevel3 = 0;
 	//for level of the game
 	level = 3;
 	vOff = 0;
@@ -506,8 +612,6 @@ void initLanterns() {
 	for (int j = 0; j < 10; j++) {
 		lanterns[j].row = rand()%40 + 30;
 		lanterns[j].col = rand()%160 + 30;
-		int randomrdel = rand()%2;
-		int randomcdel = rand()%2;
     	lanterns[j].rdel = 1;
    		lanterns[j].cdel = 1;
 		lanterns[j].width = 16;
